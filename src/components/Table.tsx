@@ -161,14 +161,14 @@ export const Table = () => {
 
     const columns: any = React.useMemo(
         () => [
-            // {
-            //     Header: '#',
-            //     accessor: 'no',
-            // },
-            // {
-            //     Header: 'Action',
-            //     accessor: 'action',
-            // },
+            {
+                Header: '#',
+                accessor: 'no',
+            },
+            {
+                Header: 'Action',
+                accessor: 'action',
+            },
             {
                 Header: 'Recevied Date',
                 accessor: 'receviedDate',
