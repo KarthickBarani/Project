@@ -1,21 +1,19 @@
 
-import { Viewer, Worker } from '@react-pdf-viewer/core';
 import React, { Component } from "react";
 
-import '@react-pdf-viewer/core/lib/styles/index.css';
+import { PdfViewer } from "./PdfViewer";
 
 
+
+const tableStyle = {
+    height: "100vh",
+    overflowy: "scroll"
+}
 
 class InvoiceDetail extends Component {
-    constructor(props: any) {
 
-        super(props)
-
-        this.state = {
-            app: String
-        }
-
-
+    state = {
+        toggleName: "Hide Invoice"
     }
     render() {
         return (
@@ -188,11 +186,11 @@ class InvoiceDetail extends Component {
                                                 </div>
                                             </div>
                                             <div className="row">
-                                                <div className="col">
+                                                <div className="col-6">
                                                     <div className="d-flex flex-stack">
                                                         <label className="form-label fs-6 fw-bolder m-2">Attachments</label>
                                                         <div>
-                                                            <button title="Add" className="btn btn-icon-primary" data-bs-toggle="tooltip"><span
+                                                            <button type="button" title="Add" className="btn btn-icon-primary" data-bs-toggle={"modal"} data-bs-target="#kt_modal_1"><span
                                                                 className="svg-icon svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                                     <path opacity="0.3"
@@ -220,9 +218,8 @@ class InvoiceDetail extends Component {
                                                             </button>
                                                         </div>
                                                     </div>
-
                                                     <div className="table-responsive">
-                                                        <table className="table table-bordered bg-light rounded table-hover  gs-3">
+                                                        <table className="table table-bordered bg-light rounded table-hover gs-3">
                                                             <thead className="fs-6 fw-bolder ">
                                                                 <tr>
                                                                     <th><input type="checkbox" className="form-check-input form-check-sm" />
@@ -245,41 +242,43 @@ class InvoiceDetail extends Component {
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="row mt-5">
-                                                <div className="col d-flex flex-column ">
-                                                    <div className="w-50 me-10">
-                                                        <label htmlFor="comments" className="form-label m-2 fs-6 fw-bolder ">
-                                                            Comments</label>
-                                                        <textarea className="form-control form-control-solid m-2"></textarea>
-                                                    </div>
-                                                    <div className="d-flex justify-content-start">
-                                                        <button className="btn btn-light-success btn-sm m-2">Approved
-                                                            <span className="svg-icon svg-icon svg-icon-1"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none">
-                                                                <path opacity="0.3"
-                                                                    d="M10 18C9.7 18 9.5 17.9 9.3 17.7L2.3 10.7C1.9 10.3 1.9 9.7 2.3 9.3C2.7 8.9 3.29999 8.9 3.69999 9.3L10.7 16.3C11.1 16.7 11.1 17.3 10.7 17.7C10.5 17.9 10.3 18 10 18Z"
-                                                                    fill="black" />
-                                                                <path
-                                                                    d="M10 18C9.7 18 9.5 17.9 9.3 17.7C8.9 17.3 8.9 16.7 9.3 16.3L20.3 5.3C20.7 4.9 21.3 4.9 21.7 5.3C22.1 5.7 22.1 6.30002 21.7 6.70002L10.7 17.7C10.5 17.9 10.3 18 10 18Z"
-                                                                    fill="black" />
-                                                            </svg></span>
-                                                        </button>
-                                                        <button className="btn btn-light-warning btn-sm m-2">Not
-                                                            Approved <span className="svg-icon svg-icon-1"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none">
-                                                                <path opacity="0.3"
-                                                                    d="M6.7 19.4L5.3 18C4.9 17.6 4.9 17 5.3 16.6L16.6 5.3C17 4.9 17.6 4.9 18 5.3L19.4 6.7C19.8 7.1 19.8 7.7 19.4 8.1L8.1 19.4C7.8 19.8 7.1 19.8 6.7 19.4Z"
-                                                                    fill="black" />
-                                                                <path
-                                                                    d="M19.5 18L18.1 19.4C17.7 19.8 17.1 19.8 16.7 19.4L5.40001 8.1C5.00001 7.7 5.00001 7.1 5.40001 6.7L6.80001 5.3C7.20001 4.9 7.80001 4.9 8.20001 5.3L19.5 16.6C19.9 16.9 19.9 17.6 19.5 18Z"
-                                                                    fill="black" />
-                                                            </svg></span>
-                                                        </button>
+                                                <div className="col-6">
+                                                    <div className="col d-flex flex-column ">
+                                                        <div className="w-100 me-10">
+                                                            <label htmlFor="comments" className="form-label m-2 fs-6 fw-bolder ">
+                                                                Comments</label>
+                                                            <textarea className="form-control form-control-solid m-2"></textarea>
+                                                        </div>
+                                                        <div className="d-flex justify-content-end">
+                                                            <button className="btn btn-light-success btn-sm m-2">Approved
+                                                                <span className="svg-icon svg-icon svg-icon-1"><svg
+                                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                    viewBox="0 0 24 24" fill="none">
+                                                                    <path opacity="0.3"
+                                                                        d="M10 18C9.7 18 9.5 17.9 9.3 17.7L2.3 10.7C1.9 10.3 1.9 9.7 2.3 9.3C2.7 8.9 3.29999 8.9 3.69999 9.3L10.7 16.3C11.1 16.7 11.1 17.3 10.7 17.7C10.5 17.9 10.3 18 10 18Z"
+                                                                        fill="black" />
+                                                                    <path
+                                                                        d="M10 18C9.7 18 9.5 17.9 9.3 17.7C8.9 17.3 8.9 16.7 9.3 16.3L20.3 5.3C20.7 4.9 21.3 4.9 21.7 5.3C22.1 5.7 22.1 6.30002 21.7 6.70002L10.7 17.7C10.5 17.9 10.3 18 10 18Z"
+                                                                        fill="black" />
+                                                                </svg></span>
+                                                            </button>
+                                                            <button className="btn btn-light-warning btn-sm my-2">Not
+                                                                Approved <span className="svg-icon svg-icon-1"><svg
+                                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                    viewBox="0 0 24 24" fill="none">
+                                                                    <path opacity="0.3"
+                                                                        d="M6.7 19.4L5.3 18C4.9 17.6 4.9 17 5.3 16.6L16.6 5.3C17 4.9 17.6 4.9 18 5.3L19.4 6.7C19.8 7.1 19.8 7.7 19.4 8.1L8.1 19.4C7.8 19.8 7.1 19.8 6.7 19.4Z"
+                                                                        fill="black" />
+                                                                    <path
+                                                                        d="M19.5 18L18.1 19.4C17.7 19.8 17.1 19.8 16.7 19.4L5.40001 8.1C5.00001 7.7 5.00001 7.1 5.40001 6.7L6.80001 5.3C7.20001 4.9 7.80001 4.9 8.20001 5.3L19.5 16.6C19.9 16.9 19.9 17.6 19.5 18Z"
+                                                                        fill="black" />
+                                                                </svg></span>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className="row mt-5">
                                             </div>
                                         </div>
                                     </form>
@@ -292,24 +291,13 @@ class InvoiceDetail extends Component {
                             <div className="card card-flush">
                                 <div className="card-header ribbon ribbon-start">
                                     <h3 className="card-title fw-bolders">Invoice</h3>
-                                    <div role="button" data-bs-toggle="collapse" data-bs-target="#pdf" className="ribbon-label bg-primary">Hide Invoice</div>
+                                    <div role="button" data-bs-toggle="collapse" data-bs-target="#pdf" className="ribbon-label bg-primary">{`${this.state.toggleName}`}</div>
                                 </div>
                                 <div className="card-body">
                                     <div className="container-fluid">
                                         <div className="row">
                                             <div id="pdf" className="col collapse show fade">
-                                                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                                                    <div
-                                                        style={{
-
-                                                            marginLeft: 'auto',
-                                                            marginRight: 'auto',
-                                                        }}
-                                                    >
-                                                        <Viewer fileUrl="/assets/Invoice001.pdf" />
-
-                                                    </div>
-                                                </Worker>
+                                                <PdfViewer />
                                             </div>
                                             <div className="col">
                                                 <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 ">
@@ -326,10 +314,10 @@ class InvoiceDetail extends Component {
                                                     </li>
                                                 </ul>
 
-                                                <div className="tab-content h-100 ">
-                                                    <div className="tab-pane fade" id="itemsTab" role="tabpanel">
-                                                        <div className="table-responsive">
-                                                            <table className="table table-rounded border bg-light table-hover gs-3 ">
+                                                <div className="tab-content h-100">
+                                                    <div className="tab-pane fade h-100" id="itemsTab" role="tabpanel">
+                                                        <div className="table-responsive" >
+                                                            <table className="table table-rounded border bg-light table-hover gs-3 " style={tableStyle}>
                                                                 <thead className="fw-bolder fs-6">
                                                                     <tr>
                                                                         <th className="min-w-10px">Qty</th>
@@ -360,20 +348,17 @@ class InvoiceDetail extends Component {
                                                                         <td>$ 120.30</td>
                                                                     </tr>
                                                                 </tbody>
+                                                                <tfoot>
+                                                                    <tr className="fw-bold">
+                                                                        <th colSpan={9}></th>
+                                                                        <th>Items Subtotal</th>
+                                                                        <th>$ 120.30</th>
+                                                                    </tr>
+                                                                </tfoot>
                                                             </table>
                                                         </div>
-                                                        <div className="d-flex flex-column ">
-                                                            <div className="flex-row m-3">
-                                                                <label className="mx-5">
-                                                                    <h5>Items Subtotal</h5>
-                                                                </label>
-                                                                <label className="mx-5">
-                                                                    <h5>$ 120.30</h5>
-                                                                </label>
-                                                            </div>
-                                                        </div>
                                                     </div>
-                                                    <div className="tab-pane fade show active" id="expensesTab" role="tabpanel">
+                                                    <div className="tab-pane fade show active h-100" id="expensesTab" role="tabpanel">
                                                         <div className="d-flex flex-row-reverse mt-2">
                                                             <button title="Delete" className="btn btn-icon-danger" data-bs-toggle="tooltip">
                                                                 <span className="svg-icon svg-icon-2"><svg
@@ -409,37 +394,36 @@ class InvoiceDetail extends Component {
                                                                         fill="black" />
                                                                 </svg></span></button>
                                                         </div>
-                                                        <div className="d-flex flex-column">
-                                                            <div className="table-responsive row ">
-                                                                <table className="table table-bordered bg-light rounded table-hover gs-3 ">
-                                                                    <thead className="fs-6 fw-bolder">
-                                                                        <tr>
-                                                                            <th>Account</th>
-                                                                            <th>Amount</th>
-                                                                            <th>Dept</th>
-                                                                            <th>Location</th>
-                                                                            <th>Memo</th>
-                                                                            <th>Err #</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody className="bg-white">
-                                                                        <tr>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                            <td></td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <div className=" align-items-end">
-                                                                <label className="form-label form-label fs-5 fw-bolder m-2">Expenses
-                                                                    Subtotal :</label>
-                                                                <label className="form-label form-label fs-5 fw-bolder m-2">$
-                                                                    0.00</label>
-                                                            </div>
+                                                        <div className="table-responsive ">
+                                                            <table className="table table-bordered h-80 bg-light rounded min-h-80 gs-3 ">
+                                                                <thead className="fs-6 fw-bolder">
+                                                                    <tr>
+                                                                        <th>Account</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Dept</th>
+                                                                        <th>Location</th>
+                                                                        <th>Memo</th>
+                                                                        <th>Err #</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody className="bg-white" style={tableStyle}>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr className="fw-bold">
+                                                                        <th colSpan={4}></th>
+                                                                        <th> Subtotal </th>
+                                                                        <th>$ 0.00</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -478,6 +462,67 @@ class InvoiceDetail extends Component {
                         </div >
                     </div >
                 </div >
+                <div className="modal fade" tabIndex={-1} id="kt_modal_1">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Attachment</h5>
+
+                                <div className="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                    <span className="svg-icon svg-icon-2x">x</span>
+                                </div>
+
+                            </div>
+
+                            <div className="modal-body">
+                                <form>
+                                    <div className="form-group m-2">
+                                        <label htmlFor="descprition" className="form-label fw-bold">Approver</label>
+                                        <select className="form-control" value={-1} >
+                                            <option value="1">Guna</option>
+                                            <option value="2">Peter</option>
+                                            <option value="3">Chandra</option>
+                                            <option value="4">Karthick</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group m-2">
+                                        <label htmlFor="descprition" className="form-label fw-bold">Descprition</label>
+                                        <textarea data-kt-autosize="true" className="form-control"></textarea>
+                                    </div>
+                                    <div className="form-group m-2">
+                                        <label className="form-label fw-bold">Attachment</label>
+                                        <input type="file" className="form-control invalid" accept="application/pdf,image/jpg,image/jpeg,image/png" />
+                                        <small className="text-muted">File Format Accpect only this .pdf,.jpeg,.png</small>
+                                    </div>
+                                    {/* <div className="fv-row">
+
+                                        <div className="dropzone" id="kt_dropzonejs_example_1">
+
+                                            <div className="dz-message needsclick">
+
+                                                <i className="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
+
+
+
+                                                <div className="ms-4">
+                                                    <h3 className="fs-5 fw-bolder text-gray-900 mb-1">Drop files here or click to upload.</h3>
+                                                    <span className="fs-7 fw-bold text-gray-400">Upload up to 10 files</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div> */}
+                                </form>
+                            </div>
+
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </>
         )
     }

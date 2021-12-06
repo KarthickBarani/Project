@@ -1,7 +1,6 @@
 import { useTable, useSortBy } from 'react-table'
 import React from 'react'
 import { Link } from "react-router-dom"
-import { table } from 'console'
 
 
 export const Table = () => {

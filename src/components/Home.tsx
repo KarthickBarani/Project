@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { Table } from "./Table"
-
+import { Charts } from "./Charts"
 
 export const Home = () => {
     return (
@@ -10,41 +10,39 @@ export const Home = () => {
                     <h4 className="text-white" >Dashboard</h4>
                 </div>
             </div>
-            <div className="row justify-content-between g-5 mt-10">
-                {/* <div className="col-lg-4">
-                    <div className="card card-stretch card-flush shadow-sm" >
-                        <div className="card-header card-bottom-rounded ">
-                            <p className="card-title fw-bolder fs-4 text-gray-800">
-                                Status
-                            </p>
+            <div className="row mt-10">
+                <div className="col-4 ">
+                    <div className="card card-flush shadow-sm">
+                        <div className="card-header">
+                            <h4 className="card-title">Chart</h4>
                         </div>
                         <div className="card-body">
-                            <div className="d-flex row justify-content-around align-items-center h-100">
-                                <div className="col">
-                                    <button className="btn btn-light-warning btn-lg shadow-sm m-2 me-end">
-                                        <span className="svg-icon svg-icon-3hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
-                                            <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="black" />
-                                            <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="black" />
-                                        </svg></span> Pending...   <span className="badge badge-circle badge-danger ms-2">3</span>
-                                    </button>
-                                </div>
-                                <div className="col">
-                                    <div className="btn btn-light-success btn-lg shadow-sm m-2 me-end">
-                                        <span className="svg-icon svg-icon-3hx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path opacity="0.5" d="M12.8956 13.4982L10.7949 11.2651C10.2697 10.7068 9.38251 10.7068 8.85731 11.2651C8.37559 11.7772 8.37559 12.5757 8.85731 13.0878L12.7499 17.2257C13.1448 17.6455 13.8118 17.6455 14.2066 17.2257L21.1427 9.85252C21.6244 9.34044 21.6244 8.54191 21.1427 8.02984C20.6175 7.47154 19.7303 7.47154 19.2051 8.02984L14.061 13.4982C13.7451 13.834 13.2115 13.834 12.8956 13.4982Z" fill="black" />
-                                            <path d="M7.89557 13.4982L5.79487 11.2651C5.26967 10.7068 4.38251 10.7068 3.85731 11.2651C3.37559 11.7772 3.37559 12.5757 3.85731 13.0878L7.74989 17.2257C8.14476 17.6455 8.81176 17.6455 9.20663 17.2257L16.1427 9.85252C16.6244 9.34044 16.6244 8.54191 16.1427 8.02984C15.6175 7.47154 14.7303 7.47154 14.2051 8.02984L9.06096 13.4982C8.74506 13.834 8.21146 13.834 7.89557 13.4982Z" fill="black" />
-                                        </svg></span> Approvals<span className="badge badge-circle badge-danger ms-2">5</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="card-footer">
-
+                            <Charts />
                         </div>
                     </div>
-                </div> */}
-
+                </div>
+                <div className="col-4 ">
+                    <div className="card card-flush shadow-sm">
+                        <div className="card-header">
+                            <h4 className="card-title">Chart</h4>
+                        </div>
+                        <div className="card-body">
+                            <Charts />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-4 ">
+                    <div className="card card-flush shadow-sm">
+                        <div className="card-header">
+                            <h4 className="card-title">Chart</h4>
+                        </div>
+                        <div className="card-body">
+                            <Charts />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="row justify-content-between g-5 mt-10">
                 <div className="col">
                     <div className="card card-flush card-stretch shadow-sm">
                         <div className="card-header">
