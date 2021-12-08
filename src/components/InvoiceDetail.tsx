@@ -29,7 +29,7 @@ export const InvoiceDetail = () => {
                             <div className="card-header bg-white">
                                 <h3 className="card-title fw-bolders">Invoice Details</h3>
                                 <div className="card-toolbar">
-                                    <span className="svg-icon svg-icon-primary svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
+                                    <span role='button' className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none">
                                         <path opacity="0.3"
                                             d="M6.7 19.4L5.3 18C4.9 17.6 4.9 17 5.3 16.6L16.6 5.3C17 4.9 17.6 4.9 18 5.3L19.4 6.7C19.8 7.1 19.8 7.7 19.4 8.1L8.1 19.4C7.8 19.8 7.1 19.8 6.7 19.4Z"
@@ -38,20 +38,18 @@ export const InvoiceDetail = () => {
                                             d="M19.5 18L18.1 19.4C17.7 19.8 17.1 19.8 16.7 19.4L5.40001 8.1C5.00001 7.7 5.00001 7.1 5.40001 6.7L6.80001 5.3C7.20001 4.9 7.80001 4.9 8.20001 5.3L19.5 16.6C19.9 16.9 19.9 17.6 19.5 18Z"
                                             fill="black" />
                                     </svg></span>
-                                    <button data-bs-dismiss="click" className="btn btn-icon " title="Save"
-                                        data-bs-toggle="tooltip">
-                                        <span className="svg-icon svg-icon-primary svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
-                                            xmlnsXlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                            viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <polygon points="0 0 24 0 24 24 0 24" />
-                                                <path
-                                                    d="M17,4 L6,4 C4.79111111,4 4,4.7 4,6 L4,18 C4,19.3 4.79111111,20 6,20 L18,20 C19.2,20 20,19.3 20,18 L20,7.20710678 C20,7.07449854 19.9473216,6.94732158 19.8535534,6.85355339 L17,4 Z M17,11 L7,11 L7,4 L17,4 L17,11 Z"
-                                                    fill="#000000" fill-rule="nonzero" />
-                                                <rect fill="#000000" opacity="0.3" x="12" y="4" width="3" height="5" rx="0.5" />
-                                            </g>
-                                        </svg></span>
-                                    </button>
+
+                                    <span role='button' className="svg-icon svg-icon-primary svg-icon-1 px-5"><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlnsXlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon points="0 0 24 0 24 24 0 24" />
+                                            <path
+                                                d="M17,4 L6,4 C4.79111111,4 4,4.7 4,6 L4,18 C4,19.3 4.79111111,20 6,20 L18,20 C19.2,20 20,19.3 20,18 L20,7.20710678 C20,7.07449854 19.9473216,6.94732158 19.8535534,6.85355339 L17,4 Z M17,11 L7,11 L7,4 L17,4 L17,11 Z"
+                                                fill="#000000" fill-rule="nonzero" />
+                                            <rect fill="#000000" opacity="0.3" x="12" y="4" width="3" height="5" rx="0.5" />
+                                        </g>
+                                    </svg></span>
                                 </div>
                             </div>
                             <div className="card-body">
@@ -68,16 +66,18 @@ export const InvoiceDetail = () => {
                                                 </div>
 
                                                 <div className="form-group">
-                                                    <label htmlFor="vendorAddress" className="form-label fw-bolder  fs-6 gray-700   m-2">Vendor
+                                                    <label htmlFor="vendorAddress" className="form-label fw-bolder fs-6 gray-700 m-2">Vendor
                                                         Address</label>
                                                     <input id="venderAddress" name="venderAddress" value={"12 E 49th Street 11th Floor"} className="form-control form-control-solid " />
                                                     <input value="New York NY 10017" className="form-control form-control-solid mt-3 " />
                                                     <input value="+646 876 476" className="form-control form-control-solid mt-3 " />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label htmlFor="vendorId" className="form-label fw-bolder  fs-6 gray-700   m-2">Vendor
-                                                        Id</label>
-                                                    <input id="venderId" name="venderId" value={"0485"} className="form-control form-control-solid " />
+                                                    <label htmlFor="subsidiary"
+                                                        className="form-label fw-bolder fs-6-gray-700   m-2">Subsidiary</label>
+                                                    <select id="subsidiary" name="subsidiary" className="form-select form-select-solid ">
+                                                        <option></option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div className="col">
@@ -93,13 +93,7 @@ export const InvoiceDetail = () => {
                                                 <input id="address" name="address" value="Attn: Accounts Payable" className="form-control form-control-solid " />
                                                 <input value="Las Vegas" className="form-control form-control-solid mt-3 " />
                                                 <input className="form-control form-control-solid mt-3 " />
-                                                <div className="form-group">
-                                                    <label htmlFor="subsidiary"
-                                                        className="form-label fw-bolder fs-6-gray-700   m-2">Subsidiary</label>
-                                                    <select id="subsidiary" name="subsidiary" className="form-select form-select-solid ">
-                                                        <option></option>
-                                                    </select>
-                                                </div>
+
                                             </div>
                                         </div>
                                         <div className="row">
@@ -481,27 +475,8 @@ export const InvoiceDetail = () => {
                                 <div className="form-group m-2">
                                     <label className="form-label fw-bold">Attachment</label>
                                     <input type="file" className="form-control invalid" accept="application/pdf,image/jpg,image/jpeg,image/png" />
-                                    <small className="text-muted">File Format Accpect only this .pdf,.jpeg,.png</small>
+                                    <small className="text-muted">File Format :.pdf,.jpeg,.png File Size :(max:10mb)</small>
                                 </div>
-                                {/* <div className="fv-row">
-
-                                        <div className="dropzone" id="kt_dropzonejs_example_1">
-
-                                            <div className="dz-message needsclick">
-
-                                                <i className="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
-
-
-
-                                                <div className="ms-4">
-                                                    <h3 className="fs-5 fw-bolder text-gray-900 mb-1">Drop files here or click to upload.</h3>
-                                                    <span className="fs-7 fw-bold text-gray-400">Upload up to 10 files</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div> */}
                             </form>
                         </div>
 

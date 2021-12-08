@@ -245,9 +245,11 @@ export const Table = () => {
         <>
             <div className="card card-flush card-stretch shadow-sm">
                 <div className="card-header">
-                    <span className="card-title fw-bolder fs-4 text-gray-800" > Invoice Details</span>
+                    <span className="card-title fw-bolder fs-4 text-gray-800" > Invoice Details
+                    </span>
+
                     <div className="card-toolbar">
-                        <button className="btn btn-light">Filter</button>
+                        <span className='ms-auto'><input className='form-control form-control-solid' placeholder='Search Here' /></span>
                         <button type="button" className="btn btn-light m-2"
                             data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-start">

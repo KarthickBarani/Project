@@ -1,6 +1,7 @@
 
-import { Table } from "./Table"
 import { Charts } from "./Charts"
+import { Table } from "./Table"
+
 
 
 export const Home = () => {
@@ -42,6 +43,7 @@ export const Home = () => {
                         </div>
                     </div>
                 </div>
+
             </div>
             <div className="row justify-content-between g-5 my-3">
                 <div className="col">
