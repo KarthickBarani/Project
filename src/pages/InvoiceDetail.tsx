@@ -1,7 +1,7 @@
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { PdfViewer } from "./PdfViewer";
+import { PdfViewer } from "../components/PdfViewer";
 
 
 
@@ -14,7 +14,8 @@ const tableStyle = {
 
 export const InvoiceDetail = () => {
     const [init, set] = useState(true)
-    const pdfToggle = init ? 'Show Invoice' : 'Hide Invoice'
+    const pdfToggle = init ? 'Hide Invoice' : 'Show Invoice'
+    const collapseClass = init ? 'col-6' : 'col-12'
     return (
         <>
             <div className="container-fluid">
@@ -278,7 +279,7 @@ export const InvoiceDetail = () => {
                         </div>
                     </div >
                 </div >
-                <div className="row my-2 h-100vh">
+                <div className="row my-2 ">
                     <div className="col">
                         <div className="card card-flush">
                             <div className="card-header ribbon ribbon-start">
@@ -287,11 +288,13 @@ export const InvoiceDetail = () => {
                             </div>
                             <div className="card-body">
                                 <div className="container-fluid">
-                                    <div className="row">
-                                        <div id="pdf" className="col collapse show fade">
-                                            <PdfViewer />
+                                    <div className="row d-flex">
+                                        <div id="pdf" className=" col-6 collapse show fade">
+                                            <div className="m-3">
+                                                <PdfViewer />
+                                            </div>
                                         </div>
-                                        <div className="col">
+                                        <div className={collapseClass}>
                                             <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 ">
                                                 <li className="nav-item">
                                                     <a className="nav-link active " role="button" data-bs-toggle="tab"
@@ -308,7 +311,7 @@ export const InvoiceDetail = () => {
 
                                             <div className="tab-content h-100">
                                                 <div className="tab-pane fade h-100" id="itemsTab" role="tabpanel">
-                                                    <div className="table-responsive" >
+                                                    <div className="table-responsive mx-3" >
                                                         <table className="table table-rounded border bg-light gs-3 " style={tableStyle}>
                                                             <thead className="fw-bolder fs-6">
                                                                 <tr>
@@ -386,7 +389,7 @@ export const InvoiceDetail = () => {
                                                                     fill="black" />
                                                             </svg></span></button>
                                                     </div>
-                                                    <div className="table-responsive ">
+                                                    <div className="table-responsive m-3">
                                                         <table className="table table-bordered h-80 bg-light rounded min-h-80 gs-3 ">
                                                             <thead className="fs-6 fw-bolder">
                                                                 <tr>
@@ -395,7 +398,6 @@ export const InvoiceDetail = () => {
                                                                     <th>Dept</th>
                                                                     <th>Location</th>
                                                                     <th>Memo</th>
-                                                                    <th>Err #</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="bg-white" style={tableStyle}>
@@ -405,12 +407,11 @@ export const InvoiceDetail = () => {
                                                                     <td></td>
                                                                     <td></td>
                                                                     <td></td>
-                                                                    <td></td>
                                                                 </tr>
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr className="fw-bold">
-                                                                    <th colSpan={4}></th>
+                                                                    <th colSpan={3}></th>
                                                                     <th> Subtotal </th>
                                                                     <th>$ 0.00</th>
                                                                 </tr>
@@ -452,8 +453,8 @@ export const InvoiceDetail = () => {
                             </div>
                         </div >
                     </div >
-                </div >
-            </div >
+                </div>
+            </div>
             <div className="modal fade" tabIndex={-1} id="kt_modal_1">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">

@@ -1,10 +1,28 @@
-import { useTable, useSortBy } from 'react-table'
+import { useTable, useSortBy, useGlobalFilter } from 'react-table'
 import React from 'react'
 import { Link } from "react-router-dom"
 
+type tab = {
+    id: number,
+    action: JSX.Element,
+    receviedDate: string,
+    vendorId: string,
+    vendor: string,
+    invoiceDate: string,
+    inv: string,
+    amount: string,
+    po: string,
+    poStatus: string,
+    terms: string,
+    assignment: string,
+    updated: string,
+    currency: string,
+    total: string
+
+}[]
 
 
-export const data: any = [
+export const data: tab = [
     {
         id: 1,
         action: <td className="text-center">
@@ -14,7 +32,7 @@ export const data: any = [
                     d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z"
                     fill="black" />
                 <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
-            </svg></span>&nbsp;&nbsp;
+            </svg></span>
             <Link to='/InvoiceDetail'>
                 <span
                     className="svg-icon svg-icon-warning svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +45,10 @@ export const data: any = [
                             fill="black" />
                     </svg></span>
             </Link>
+            <span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: Ixc003" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+            </svg></span>
         </td>,
         receviedDate: "09-31-2021",
         vendorId: "0458",
@@ -51,7 +73,7 @@ export const data: any = [
                     d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z"
                     fill="black" />
                 <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
-            </svg></span>&nbsp;&nbsp;
+            </svg></span>
             <Link to='/InvoiceDetail'>
                 <span
                     className="svg-icon svg-icon-warning svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
@@ -64,6 +86,10 @@ export const data: any = [
                             fill="black" />
                     </svg></span>
             </Link>
+            <span className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+            </svg></span>
         </td>,
         receviedDate: "09-31-2021",
         vendorId: "0458",
@@ -88,7 +114,7 @@ export const data: any = [
                     d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z"
                     fill="black" />
                 <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
-            </svg></span>&nbsp;&nbsp;
+            </svg></span>
             <Link to='/InvoiceDetail'>
                 <span
                     className="svg-icon svg-icon-warning svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
@@ -101,6 +127,10 @@ export const data: any = [
                             fill="black" />
                     </svg></span>
             </Link>
+            <span className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+            </svg></span>
         </td>,
         receviedDate: "09-31-2021",
         vendorId: "0458",
@@ -125,7 +155,7 @@ export const data: any = [
                     d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z"
                     fill="black" />
                 <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
-            </svg></span>&nbsp;&nbsp;
+            </svg></span>
             <Link to='/InvoiceDetail'>
                 <span
                     className="svg-icon svg-icon-warning svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
@@ -138,6 +168,10 @@ export const data: any = [
                             fill="black" />
                     </svg></span>
             </Link>
+            <span className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+                <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+            </svg></span>
         </td>,
         receviedDate: "09-31-2021",
         vendorId: "0458",
@@ -175,7 +209,7 @@ export const Table = () => {
         () => [
             {
                 Header: '#',
-                accessor: 'id',
+                accessor: 'id'
             },
             {
                 Header: 'Action',
@@ -199,7 +233,7 @@ export const Table = () => {
                 accessor: 'invoiceDate',
             },
             {
-                Header: 'Inv',
+                Header: 'Inv #',
                 accessor: 'inv',
             }, {
                 Header: 'Amount',
@@ -213,6 +247,7 @@ export const Table = () => {
             }, {
                 Header: 'Terms',
                 accessor: 'terms',
+
             }, {
                 Header: 'Assignment',
                 accessor: 'assignment',
@@ -229,17 +264,22 @@ export const Table = () => {
         ],
         []
     )
-
+    const hideCol = ['terms', 'updated', 'assignment', 'currency']
+    const initialState = { ...columns, hiddenColumns: hideCol }
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
+        state,
+        setGlobalFilter,
         prepareRow,
         allColumns,
         getToggleHideAllColumnsProps,
-    } = useTable({ columns, data }, useSortBy)
+    } = useTable({ columns, data, initialState }, useGlobalFilter, useSortBy)
+
+    const { globalFilter } = state
 
     return (
         <>
@@ -249,7 +289,7 @@ export const Table = () => {
                     </span>
 
                     <div className="card-toolbar">
-                        <span className='ms-auto'><input className='form-control form-control-solid' placeholder='Search Here' /></span>
+                        <span className='ms-auto'><input value={globalFilter || ''} onChange={e => { setGlobalFilter(e.target.value) }} className='form-control form-control-solid' placeholder='Search Here' /></span>
                         <button type="button" className="btn btn-light m-2"
                             data-kt-menu-trigger="click"
                             data-kt-menu-placement="bottom-start">
@@ -265,7 +305,7 @@ export const Table = () => {
                                     <div key={column.id}>
                                         <label>
                                             <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                                            {column.id}
+                                            {column.Header}
                                         </label>
                                     </div>
                                 ))}
@@ -292,44 +332,47 @@ export const Table = () => {
                     </ul>
                     <div className="tab-content">
                         <div className="tab-pane fade show active" id="myApprovalTab" role="tabpanel">
-                            <table {...getTableProps()} className='table table-rounded table-hover gs-3 gx-3 '>
-                                <thead className='fw-bolder fs-6'>
-                                    {headerGroups.map(headerGroup => (
-                                        <tr {...headerGroup.getHeaderGroupProps()}>
-                                            {headerGroup.headers.map((column) => (
-                                                <th{...column.getHeaderProps(column.getSortByToggleProps())}>
-                                                    {column.render('Header')}
-                                                    <span className=' ps-3 text-end'>
-                                                        {column.isSorted
-                                                            ? column.isSortedDesc
-                                                                ? '     ◢'
-                                                                : '     ◣'
-                                                            : ''}
-                                                    </span>
-                                                </th>
-                                            ))}
-                                        </tr>
-                                    ))}
-                                </thead>
-                                <tbody {...getTableBodyProps()} className='fw-bold fs-7' >
-                                    {rows.map(row => {
-                                        prepareRow(row)
-                                        return (
-                                            <tr {...row.getRowProps()}  >
-                                                {row.cells.map(cell => {
-                                                    return (
-                                                        <td
-                                                            {...cell.getCellProps()}
-                                                        >
-                                                            {cell.render('Cell')}
-                                                        </td>
-                                                    )
-                                                })}
+                            <div className="table-responsive">
+                                <table {...getTableProps()} className='table table-rounded table-hover gs-3 gx-3 '>
+                                    <thead className='fw-bolder fs-6'>
+                                        {headerGroups.map(headerGroup => (
+                                            <tr {...headerGroup.getHeaderGroupProps()}>
+
+                                                {headerGroup.headers.map((column) => (
+                                                    <th{...column.getHeaderProps(column.getSortByToggleProps())} >
+                                                        {column.render('Header')}
+                                                        <span className=' ps-3 text-end'>
+                                                            {column.isSorted
+                                                                ? column.isSortedDesc
+                                                                    ? '     ◢'
+                                                                    : '     ◣'
+                                                                : ''}
+                                                        </span>
+                                                    </th>
+                                                ))}
                                             </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </table>
+                                        ))}
+                                    </thead>
+                                    <tbody {...getTableBodyProps()} className='fw-bold fs-7' >
+                                        {rows.map(row => {
+                                            prepareRow(row)
+                                            return (
+                                                <tr {...row.getRowProps()}  >
+                                                    {row.cells.map(cell => {
+                                                        return (
+                                                            <td
+                                                                {...cell.getCellProps()}
+                                                            >
+                                                                {cell.render('Cell')}
+                                                            </td>
+                                                        )
+                                                    })}
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

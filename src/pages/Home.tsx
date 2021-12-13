@@ -1,6 +1,6 @@
 
-import { Charts } from "./Charts"
-import { Table } from "./Table"
+import { Charts } from "../components/Charts"
+import { Table } from "../components/Table"
 
 
 
