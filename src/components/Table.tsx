@@ -2,6 +2,8 @@ import { useTable, useSortBy, useGlobalFilter } from 'react-table'
 import React from 'react'
 import { Link } from "react-router-dom"
 
+
+
 type tab = {
     id: number,
     action: JSX.Element,
@@ -25,7 +27,7 @@ type tab = {
 export const data: tab = [
     {
         id: 1,
-        action: <td className="text-center">
+        action: <td >
             <span className="svg-icon svg-icon-primary svg-icon-1"><svg
                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path opacity="0.3"
@@ -66,7 +68,7 @@ export const data: tab = [
     },
     {
         id: 2,
-        action: <td className="text-center">
+        action: <td >
             <span className="svg-icon svg-icon-primary svg-icon-1"><svg
                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path opacity="0.3"
@@ -86,7 +88,7 @@ export const data: tab = [
                             fill="black" />
                     </svg></span>
             </Link>
-            <span className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: Ixc002" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
                 <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
             </svg></span>
@@ -107,7 +109,7 @@ export const data: tab = [
     },
     {
         id: 3,
-        action: <td className="text-center">
+        action: <td >
             <span className="svg-icon svg-icon-primary svg-icon-1"><svg
                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path opacity="0.3"
@@ -127,7 +129,7 @@ export const data: tab = [
                             fill="black" />
                     </svg></span>
             </Link>
-            <span className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: Ixc043" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
                 <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
             </svg></span>
@@ -148,7 +150,7 @@ export const data: tab = [
     },
     {
         id: 4,
-        action: <td className="text-center">
+        action: <td >
             <span className="svg-icon svg-icon-primary svg-icon-1"><svg
                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path opacity="0.3"
@@ -168,7 +170,7 @@ export const data: tab = [
                             fill="black" />
                     </svg></span>
             </Link>
-            <span className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: No Error" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
                 <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
             </svg></span>
@@ -189,18 +191,8 @@ export const data: tab = [
     }
 ]
 
-const IndeterminateCheckbox = React.forwardRef(
-    ({ children: indeterminate, ...rest }, ref) => {
-        const defaultRef = React.useRef()
-        const resolvedRef: any = ref || defaultRef
 
-        React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate
-        }, [resolvedRef, indeterminate])
 
-        return <input type="checkbox" ref={resolvedRef} {...rest} />
-    }
-)
 
 export const Table = () => {
 
@@ -264,8 +256,8 @@ export const Table = () => {
         ],
         []
     )
-    const hideCol = ['terms', 'updated', 'assignment', 'currency']
-    const initialState = { ...columns, hiddenColumns: hideCol }
+    const hideCols = ['terms', 'updated', 'assignment', 'currency']
+    const initialState = { ...columns, hiddenColumns: hideCols }
 
     const {
         getTableProps,
@@ -280,6 +272,8 @@ export const Table = () => {
     } = useTable({ columns, data, initialState }, useGlobalFilter, useSortBy)
 
     const { globalFilter } = state
+
+
 
     return (
         <>
@@ -299,16 +293,24 @@ export const Table = () => {
                         <div className="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4"
                             data-kt-menu="true">
                             <div className="menu-item px-3 el">
-                                <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
+                                <input type='checkbox' {...getToggleHideAllColumnsProps()} /> Toggle
                                 All
-                                {allColumns.map(column => (
-                                    <div key={column.id}>
-                                        <label>
-                                            <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-                                            {column.Header}
-                                        </label>
-                                    </div>
-                                ))}
+                                {allColumns.map(column => {
+
+                                    return (
+                                        < div key={column.id} >
+                                            <label>
+                                                <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                                                {column.Header}
+                                            </label>
+
+                                        </div>
+                                    )
+
+
+                                }
+
+                                )}
                             </div>
                         </div>
                     </div>
