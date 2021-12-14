@@ -5,10 +5,7 @@ import { PdfViewer } from "../components/PdfViewer";
 
 
 
-const tableStyle = {
-    height: "100vh",
-    overflowy: "scroll"
-}
+
 
 
 export const InvoiceDetail = () => {
@@ -311,7 +308,7 @@ export const InvoiceDetail = () => {
                                             <div className="tab-content h-100">
                                                 <div className="tab-pane fade h-100" id="itemsTab" role="tabpanel">
                                                     <div className="table-responsive mx-3" >
-                                                        <table className="table table-rounded border bg-light gs-3 " style={tableStyle}>
+                                                        <table className="table table-rounded border bg-light gs-3 ">
                                                             <thead className="fw-bolder fs-6">
                                                                 <tr>
                                                                     <th className="min-w-10px">Qty</th>
@@ -399,7 +396,7 @@ export const InvoiceDetail = () => {
                                                                     <th>Memo</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody className="bg-white" style={tableStyle}>
+                                                            <tbody className="bg-white" >
                                                                 <tr>
                                                                     <td></td>
                                                                     <td></td>
@@ -493,4 +490,4 @@ export const InvoiceDetail = () => {
 
 
 
-export default InvoiceDetail
+
