@@ -1,15 +1,22 @@
 
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { PdfViewer } from "../components/PdfViewer";
-
-
-
 
 
 
 
 export const InvoiceDetail = () => {
     const [init, set] = useState(true)
+    const [listItems, setListItems] = useState([])
+
+    useEffect(() => {
+        axios.get(`https://invoiceprocessingapi.azurewebsites.net/lineitems/${1}`).then(res => {
+            setListItems(res.data)
+            console.log(res.data)
+        }).catch(err => { console.log(err) })
+    }, [])
+
     const pdfToggle = init ? 'Hide Invoice' : 'Show Invoice'
     const collapseClass = init ? 'col-6' : 'col-12'
     return (
@@ -325,7 +332,7 @@ export const InvoiceDetail = () => {
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="bg-white">
-                                                                <tr>
+                                                                {/* <tr>
                                                                     <td>3</td>
                                                                     <td>0</td>
                                                                     <td>AF20221070</td>
@@ -337,13 +344,30 @@ export const InvoiceDetail = () => {
                                                                     <td>$ 40.10</td>
                                                                     <td>$ 120.30</td>
                                                                     <td>$ 120.30</td>
-                                                                </tr>
+                                                                </tr> */}
+                                                                {listItems.map(listItem => {
+                                                                    return (
+                                                                        <tr key={listItem['InvoiceId']} >
+                                                                            <td>{listItem['Quantity']}</td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td>{listItem['Description']}</td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td>{listItem['UnitPrice']}</td>
+                                                                            <td>{listItem['Amount']}</td>
+                                                                            <td></td>
+                                                                            <td>{listItem['Amount']}</td>
+                                                                        </tr>
+                                                                    )
+                                                                })}
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr className="fw-bold">
                                                                     <th colSpan={9}></th>
                                                                     <th>Items Subtotal</th>
-                                                                    <th>$ 120.30</th>
+                                                                    <th></th>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
