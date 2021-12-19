@@ -3,20 +3,104 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { PdfViewer } from "../components/PdfViewer";
 
+type InvoiceData = {
+    InvoiceId: number,
+    CustomerName: null | string,
+    CustomerId: null | string,
+    VendorName: string,
+    VendorAddress: null | string,
+    VendorAddressRecipient: null | string,
+    InvoiceNumber: null | string,
+    CustomerAddress: null | string,
+    CustomerAddressRecipient: null | string,
+    ShippingAddress: null | string,
+    ShippingAddressRecipient: null | string,
+    BillingAddress: null | string,
+    BillingAddressRecipient: null | string,
+    RemittanceAddress: null | string,
+    RemittanceAddressRecipient: null | string,
+    PurchaseNumber: null | string,
+    DueDate: null | string,
+    InvoiceDate: null | string,
+    TotalAmount: number,
+    LineItems: null | string,
+    AmountDue: number,
+    LastModifiedDateTime: null | string,
+    TransactionDate: null | string,
+    ReceivedDate: null | string
+
+}
+
+type invDetails = {
+
+    InvoiceId: number,
+    CustomerName: null | string,
+    CustomerId: null | string,
+    VendorName: null | string,
+    VendorAddress: null | string,
+    VendorAddressRecipient: null | string,
+    InvoiceNumber: null | string,
+    CustomerAddress: null | string,
+    CustomerAddressRecipient: null | string,
+    ShippingAddress: null | string,
+    ShippingAddressRecipient: null | string,
+    BillingAddress: null | string,
+    BillingAddressRecipient: null | string,
+    RemittanceAddress: null | string,
+    RemittanceAddressRecipient: null | string,
+    PurchaseNumber: null | string,
+    DueDate: null | string,
+    InvoiceDate: null | string,
+    TotalAmount: number,
+    LineItems: null | string,
+    AmountDue: number,
+    LastModifiedDateTime: null | string,
+    TransactionDate: null | string,
+    ReceivedDate: null | string
+
+}
+
+type listItems = {
+    LineItemId: number,
+    InvoiceId: number,
+    Amount: number,
+    PartNumber: null,
+    ProductCode: null,
+    Description: null,
+    UnitPrice: number,
+    Quantity: number,
+    ShippingQuantity: number,
+    Unit: number,
+    Date: string,
+    TaxAmount: number,
+    TaxPercentage: number
+}[]
 
 
 
-export const InvoiceDetail = () => {
+export const InvoiceDetail = (props) => {
     const [init, set] = useState(true)
-    const [listItems, setListItems] = useState([])
+    const [listItems, setListItems] = useState<listItems>([])
+    const [invDetails, setInvDetails] = useState<invDetails>({} as invDetails)
 
     useEffect(() => {
-        axios.get(`https://invoiceprocessingapi.azurewebsites.net/lineitems/${1}`).then(res => {
+        axios.get(`https://invoiceprocessingapi.azurewebsites.net/lineitems/${data.InvoiceId}`).then(res => {
             setListItems(res.data)
-            console.log(res.data)
         }).catch(err => { console.log(err) })
     }, [])
 
+    useEffect(() => {
+        axios.get(`https://invoiceprocessingapi.azurewebsites.net/Details/${data.InvoiceId}`).then(res => {
+            setInvDetails(res.data)
+        }).catch(err => { console.log(err) })
+    }, [])
+
+    let total
+
+
+
+
+    const data: InvoiceData = props.data
     const pdfToggle = init ? 'Hide Invoice' : 'Show Invoice'
     const collapseClass = init ? 'col-6' : 'col-12'
     return (
@@ -65,20 +149,20 @@ export const InvoiceDetail = () => {
                                                     <label htmlFor="vendorName" className="form-label fw-bolder  fs-6 gray-700   m-2">Vendor
                                                         Name</label>
                                                     <select id="vendorName" name="vendorName" className="form-select form-select-solid ">
-                                                        <option value="1">Squiz Inc</option>
+                                                        <option value="1">{invDetails?.VendorName}</option>
                                                     </select>
                                                 </div>
 
                                                 <div className="form-group">
                                                     <label htmlFor="vendorAddress" className="form-label fw-bolder fs-6 gray-700 m-2">Vendor
                                                         Address</label>
-                                                    <input id="venderAddress" name="venderAddress" value={"12 E 49th Street 11th Floor"} className="form-control form-control-solid " />
-                                                    <input value="New York NY 10017" className="form-control form-control-solid mt-3 " />
-                                                    <input value="+646 876 476" className="form-control form-control-solid mt-3 " />
+                                                    <input id="venderAddress" name="venderAddress" value={invDetails?.VendorAddress?.toString()} className="form-control form-control-solid " />
+                                                    <input value='' className="form-control form-control-solid mt-3 " />
+                                                    <input value='' className="form-control form-control-solid mt-3 " />
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="subsidiary"
-                                                        className="form-label fw-bolder fs-6-gray-700   m-2">Subsidiary</label>
+                                                        className="form-label fw-bolder fs-6-gray-700 m-2">Subsidiary</label>
                                                     <select id="subsidiary" name="subsidiary" className="form-select form-select-solid ">
                                                         <option></option>
                                                     </select>
@@ -89,13 +173,13 @@ export const InvoiceDetail = () => {
                                                     <label htmlFor="remitTo" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Remit
                                                         To</label>
                                                     <select id="remitTo" name="remitTo" className="form-select form-select-solid ">
-                                                        <option>College of Southern Nevada</option>
+                                                        <option>{invDetails?.CustomerName}</option>
                                                     </select>
                                                 </div>
                                                 <label htmlFor="address" className="form-label fw-bolder  fs-6 gray-700   m-2">
                                                     Address</label>
-                                                <input id="address" name="address" value="Attn: Accounts Payable" className="form-control form-control-solid " />
-                                                <input value="Las Vegas" className="form-control form-control-solid mt-3 " />
+                                                <input id="address" name="address" value={invDetails?.RemittanceAddress?.toString()} className="form-control form-control-solid " />
+                                                <input value='' className="form-control form-control-solid mt-3 " />
                                                 <input className="form-control form-control-solid mt-3 " />
 
                                             </div>
@@ -115,7 +199,7 @@ export const InvoiceDetail = () => {
                                                     <label htmlFor="location" className="form-label m-2 fw-bolder  fs-6 gray-700  ">
                                                         Location</label>
                                                     <select id="location" name="location" className="form-select form-select-solid ">
-                                                        <option></option>
+                                                        <option>{ }</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -125,7 +209,7 @@ export const InvoiceDetail = () => {
                                                 <div className="d-flex flex-column">
                                                     <label htmlFor="invoiceNumber"
                                                         className="form-label fw-bolder  fs-6 gray-700   m-2">InvoiceNumber</label>
-                                                    <input id="invoiceNumber" value={10054803} className="form-control form-control-solid " maxLength={20} />
+                                                    <input id="invoiceNumber" value={invDetails?.InvoiceNumber?.toString()} className="form-control form-control-solid " maxLength={20} />
 
                                                     <div className="form-check py-auto">
                                                         <label htmlFor="creditMemo"
@@ -138,19 +222,19 @@ export const InvoiceDetail = () => {
                                             <div className="col-3">
                                                 <label htmlFor="invoiceDate" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Invoice
                                                     Date</label>
-                                                <input value={"06-25-2021"} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
+                                                <input value={invDetails?.InvoiceDate?.toString()} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
                                                     maxLength={10} className="form-control form-control-solid  " />
 
                                             </div>
                                             <div className=" col-3">
                                                 <label htmlFor="postingPeriod" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Posting
                                                     Period</label>
-                                                <input className="form-control form-control-solid " maxLength={20} />
+                                                <input className="form-control form-control-solid " value={''} maxLength={20} />
                                             </div>
                                             <div className="col-3">
                                                 <label htmlFor="dueDate" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Due
                                                     Date</label>
-                                                <input value={"07-25-2021"} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
+                                                <input value={invDetails?.DueDate?.toString()} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
                                                     maxLength={10} className="form-control form-control-solid  " />
                                             </div>
                                         </div>
@@ -158,7 +242,7 @@ export const InvoiceDetail = () => {
                                             <div className="col-3">
                                                 <label htmlFor="invoiceAmount" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Invoice
                                                     Amount</label>
-                                                <input className="form-control form-control-solid " value={"$ 27,500.00"} maxLength={15} />
+                                                <input className="form-control form-control-solid " value={`$ ${invDetails?.TotalAmount}`} maxLength={15} />
                                             </div>
                                             <div className="col-3">
                                                 <label className="form-label m-2 fw-bolder  fs-6 gray-700  ">Currency</label>
@@ -166,11 +250,11 @@ export const InvoiceDetail = () => {
                                             </div>
                                             <div className="col-3">
                                                 <label className="form-label m-2 fw-bolder  fs-6 gray-700 ">Subtotal</label>
-                                                <input type="text" value={"$ 27,500.00"} className="form-control form-control-solid " maxLength={12} />
+                                                <input type="text" value={`$ `} className="form-control form-control-solid " maxLength={12} />
                                             </div>
                                             <div className="col-3">
                                                 <label className="form-label m-2 fw-bolder  fs-6 gray-700  ">PO Subtotal</label>
-                                                <input type="text" value={"$ 27,500.00"} className="form-control form-control-solid " maxLength={10} />
+                                                <input type="text" value={`$ `} className="form-control form-control-solid " maxLength={10} />
                                             </div>
                                         </div>
                                         <div className="row">
@@ -294,7 +378,7 @@ export const InvoiceDetail = () => {
                                     <div className="row d-flex">
                                         <div id="pdf" className=" col-6 collapse show fade">
                                             <div className="m-3">
-                                                <PdfViewer />
+                                                <PdfViewer pdfurl={data.InvoiceId} />
                                             </div>
                                         </div>
                                         <div className={collapseClass}>
@@ -314,7 +398,7 @@ export const InvoiceDetail = () => {
 
                                             <div className="tab-content h-100">
                                                 <div className="tab-pane fade h-100" id="itemsTab" role="tabpanel">
-                                                    <div className="table-responsive mx-3" >
+                                                    <div className="table-responsive mx-1" >
                                                         <table className="table table-rounded border bg-light gs-3 ">
                                                             <thead className="fw-bolder fs-6">
                                                                 <tr>
@@ -332,33 +416,20 @@ export const InvoiceDetail = () => {
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="bg-white">
-                                                                {/* <tr>
-                                                                    <td>3</td>
-                                                                    <td>0</td>
-                                                                    <td>AF20221070</td>
-                                                                    <td>WORTS4200</td>
-                                                                    <td>TS458214 Instant On/Off Trigger Start Torch</td>
-                                                                    <td></td>
-                                                                    <td>St.jhon Street</td>
-                                                                    <td>$ 40.10</td>
-                                                                    <td>$ 40.10</td>
-                                                                    <td>$ 120.30</td>
-                                                                    <td>$ 120.30</td>
-                                                                </tr> */}
                                                                 {listItems.map(listItem => {
                                                                     return (
-                                                                        <tr key={listItem['InvoiceId']} >
-                                                                            <td>{listItem['Quantity']}</td>
+                                                                        <tr key={listItem.InvoiceId} >
+                                                                            <td>{listItem.Quantity}</td>
                                                                             <td></td>
                                                                             <td></td>
+                                                                            <td>{listItem.PartNumber}</td>
+                                                                            <td>{listItem.Description}</td>
                                                                             <td></td>
-                                                                            <td>{listItem['Description']}</td>
                                                                             <td></td>
+                                                                            <td>{`$ ${listItem.UnitPrice}`}</td>
+                                                                            <td>{`$ ${listItem.Amount}`}</td>
                                                                             <td></td>
-                                                                            <td>{listItem['UnitPrice']}</td>
-                                                                            <td>{listItem['Amount']}</td>
-                                                                            <td></td>
-                                                                            <td>{listItem['Amount']}</td>
+                                                                            <td>{`$ ${listItem.Amount}`}</td>
                                                                         </tr>
                                                                     )
                                                                 })}
@@ -367,7 +438,11 @@ export const InvoiceDetail = () => {
                                                                 <tr className="fw-bold">
                                                                     <th colSpan={9}></th>
                                                                     <th>Items Subtotal</th>
-                                                                    <th></th>
+                                                                    <th>{
+                                                                        listItems.map(listItem => {
+                                                                            return total += listItem.Amount
+                                                                        })
+                                                                    }</th>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>

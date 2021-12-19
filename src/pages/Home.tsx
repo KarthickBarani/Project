@@ -1,10 +1,14 @@
 
+import { useState } from "react"
 import { Charts } from "../components/Charts"
 import { Table } from "../components/Table"
 
 
 
-export const Home = () => {
+export const Home = ({ setData }) => {
+
+    const [Pass, setPass] = useState({})
+
     return (
         <div className="container-fluid">
             <div className="row mt-10">
@@ -47,7 +51,8 @@ export const Home = () => {
             </div>
             <div className="row justify-content-between g-5 my-3">
                 <div className="col">
-                    <Table />
+                    <Table setPass={setPass} />
+                    {setData(Pass)}
                 </div>
             </div>
         </div>

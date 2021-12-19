@@ -1,17 +1,33 @@
 import { Viewer, Worker } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { HorizontalScrollingIcon, VerticalScrollingIcon, scrollModePlugin } from '@react-pdf-viewer/scroll-mode';
+import '@react-pdf-viewer/scroll-mode/lib/styles/index.css';
 
 
-export const PdfViewer = () => {
+
+
+
+
+export const PdfViewer = (props) => {
+
+
+
+    const pdfUrl: string = `https://invoiceprocessingapi.azurewebsites.net/ProcessedInvoices/Invoice_${props.pdfurl}.pdf`
+    const defaultLayoutPluginInstance = defaultLayoutPlugin()
+    const scrollModePluginInstance = scrollModePlugin()
     return (
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
             <div
                 style={{
+                    height: '100vh',
                     marginLeft: 'auto',
                     marginRight: 'auto',
                 }}
             >
-                <Viewer fileUrl="/assets/Invoice001.pdf" />
+
+                <Viewer fileUrl={pdfUrl} plugins={[defaultLayoutPluginInstance, scrollModePluginInstance]} />
 
             </div>
         </Worker>

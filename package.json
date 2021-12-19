@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@react-pdf-viewer/core": "^2.11.0",
+    "@react-pdf-viewer/default-layout": "^2.11.0",
+    "@react-pdf-viewer/scroll-mode": "^2.11.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
