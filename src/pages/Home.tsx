@@ -7,7 +7,7 @@ import { Table } from "../components/Table"
 
 export const Home = ({ setData }) => {
 
-    const [Pass, setPass] = useState({})
+    const [Pass, setPass] = useState<number>()
 
     return (
         <div className="container-fluid">

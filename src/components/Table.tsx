@@ -205,7 +205,7 @@ type InvoiceData = {
 export const Table = ({ setPass }) => {
 
 
-    let [data, setData] = useState([])
+    let [data, setData] = useState<InvoiceData>([])
 
     useEffect(() => {
         axios.get('https://invoiceprocessingapi.azurewebsites.net/api/Invoice').then(res => {
@@ -216,9 +216,6 @@ export const Table = ({ setPass }) => {
     }, [])
 
     const navigation = useNavigate()
-    const active = () => {
-        navigation('/InvoiceDetail')
-    }
 
 
     const columns = React.useMemo(
@@ -235,7 +232,7 @@ export const Table = ({ setPass }) => {
                     Cell: () => {
                         return (
                             <td >
-                                <span className="svg-icon svg-icon-primary svg-icon-1"><svg
+                                <span role='button' className="svg-icon svg-icon-primary svg-icon-1"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path opacity="0.3"
                                         d="M19 22H5C4.4 22 4 21.6 4 21V3C4 2.4 4.4 2 5 2H14L20 8V21C20 21.6 19.6 22 19 22Z"
@@ -243,7 +240,7 @@ export const Table = ({ setPass }) => {
                                     <path d="M15 8H20L14 2V7C14 7.6 14.4 8 15 8Z" fill="black" />
                                 </svg></span>&nbsp;&nbsp;
 
-                                <span onClick={active}
+                                <span role='button'
                                     className="svg-icon svg-icon-warning svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" viewBox="0 0 24 24" fill="none">
                                         <path opacity="0.3"
@@ -252,8 +249,12 @@ export const Table = ({ setPass }) => {
                                         <path
                                             d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z"
                                             fill="black" />
-                                    </svg></span>
-
+                                    </svg>
+                                </span>&nbsp;&nbsp;
+                                <span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: No Error" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
+                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+                                </svg></span>
                             </td>
                         )
                     }
@@ -303,14 +304,7 @@ export const Table = ({ setPass }) => {
                 }, {
                     Header: 'Total',
                     accessor: 'TotalAmount',
-                },
-                {
-                    Header: 'Status',
-                    Cell: () => <td><span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: No Error" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
-                        <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
-                    </svg></span></td>
-                },
+                }
             ],
         []
     )
@@ -416,10 +410,9 @@ export const Table = ({ setPass }) => {
                                         {rows.map(row => {
                                             prepareRow(row)
                                             return (
-                                                <tr onClick={() => {
-                                                    setPass(row.original)
-                                                    setTimeout(() => { navigation('/InvoiceDetail') }, 100)
-
+                                                <tr role={'button'} onClick={() => {
+                                                    setPass(row.original.InvoiceId)
+                                                    setTimeout(() => navigation('/InvoiceDetail'))
                                                 }}
                                                     {...row.getRowProps()} >
                                                     {

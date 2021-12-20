@@ -3,33 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { PdfViewer } from "../components/PdfViewer";
 
-type InvoiceData = {
-    InvoiceId: number,
-    CustomerName: null | string,
-    CustomerId: null | string,
-    VendorName: string,
-    VendorAddress: null | string,
-    VendorAddressRecipient: null | string,
-    InvoiceNumber: null | string,
-    CustomerAddress: null | string,
-    CustomerAddressRecipient: null | string,
-    ShippingAddress: null | string,
-    ShippingAddressRecipient: null | string,
-    BillingAddress: null | string,
-    BillingAddressRecipient: null | string,
-    RemittanceAddress: null | string,
-    RemittanceAddressRecipient: null | string,
-    PurchaseNumber: null | string,
-    DueDate: null | string,
-    InvoiceDate: null | string,
-    TotalAmount: number,
-    LineItems: null | string,
-    AmountDue: number,
-    LastModifiedDateTime: null | string,
-    TransactionDate: null | string,
-    ReceivedDate: null | string
-
-}
 
 type invDetails = {
 
@@ -78,29 +51,34 @@ type listItems = {
 
 
 
+
 export const InvoiceDetail = (props) => {
     const [init, set] = useState(true)
     const [listItems, setListItems] = useState<listItems>([])
     const [invDetails, setInvDetails] = useState<invDetails>({} as invDetails)
 
+
     useEffect(() => {
-        axios.get(`https://invoiceprocessingapi.azurewebsites.net/lineitems/${data.InvoiceId}`).then(res => {
+        axios.get(`https://invoiceprocessingapi.azurewebsites.net/lineitems/${props.data}`).then(res => {
             setListItems(res.data)
         }).catch(err => { console.log(err) })
     }, [])
 
     useEffect(() => {
-        axios.get(`https://invoiceprocessingapi.azurewebsites.net/Details/${data.InvoiceId}`).then(res => {
+        axios.get(`https://invoiceprocessingapi.azurewebsites.net/Details/${props.data}`).then(res => {
             setInvDetails(res.data)
         }).catch(err => { console.log(err) })
     }, [])
 
-    let total
+    const reducer = (prevVal, currentVal) => prevVal + currentVal.Amount
+    const subTotal: number = listItems.reduce(reducer, 0)
 
 
+    // style variable
+    const formInput = 'form-control form-control-solid mt-1'
+    const formSelect = 'form-select form-select-solid'
+    const formLabel = 'form-label fw-bolder fs-6 gray-700 mt-2'
 
-
-    const data: InvoiceData = props.data
     const pdfToggle = init ? 'Hide Invoice' : 'Show Invoice'
     const collapseClass = init ? 'col-6' : 'col-12'
     return (
@@ -146,59 +124,64 @@ export const InvoiceDetail = (props) => {
                                         <div className="row">
                                             <div className="col">
                                                 <div className="form-group text-start">
-                                                    <label htmlFor="vendorName" className="form-label fw-bolder  fs-6 gray-700   m-2">Vendor
+                                                    <label htmlFor="vendorName" className={formLabel}>Vendor
                                                         Name</label>
-                                                    <select id="vendorName" name="vendorName" className="form-select form-select-solid ">
+                                                    <select id="vendorName" name="vendorName" className={formSelect}>
                                                         <option value="1">{invDetails?.VendorName}</option>
                                                     </select>
                                                 </div>
 
                                                 <div className="form-group">
-                                                    <label htmlFor="vendorAddress" className="form-label fw-bolder fs-6 gray-700 m-2">Vendor
+                                                    <label htmlFor="vendorAddress" className={formLabel}>Vendor
                                                         Address</label>
-                                                    <input id="venderAddress" name="venderAddress" value={invDetails?.VendorAddress?.toString()} className="form-control form-control-solid " />
-                                                    <input value='' className="form-control form-control-solid mt-3 " />
-                                                    <input value='' className="form-control form-control-solid mt-3 " />
+                                                    <input id="venderAddress" name="venderAddress" value={invDetails?.VendorAddress?.toString()} className={formInput} />
+                                                    <input value='' className={formInput} />
+                                                    <input value='' className={formInput} />
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="subsidiary"
-                                                        className="form-label fw-bolder fs-6-gray-700 m-2">Subsidiary</label>
-                                                    <select id="subsidiary" name="subsidiary" className="form-select form-select-solid ">
+                                                        className={formLabel}>Subsidiary</label>
+                                                    <select id="subsidiary" name="subsidiary" className={formSelect}>
                                                         <option></option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div className="col">
                                                 <div className="form-group text-start">
-                                                    <label htmlFor="remitTo" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Remit
+                                                    <label htmlFor="remitTo" className={formLabel}>Remit
                                                         To</label>
-                                                    <select id="remitTo" name="remitTo" className="form-select form-select-solid ">
+                                                    <select id="remitTo" name="remitTo" className={formSelect}>
                                                         <option>{invDetails?.CustomerName}</option>
                                                     </select>
                                                 </div>
-                                                <label htmlFor="address" className="form-label fw-bolder  fs-6 gray-700   m-2">
+                                                <label htmlFor="address" className={formLabel}>
                                                     Address</label>
-                                                <input id="address" name="address" value={invDetails?.RemittanceAddress?.toString()} className="form-control form-control-solid " />
-                                                <input value='' className="form-control form-control-solid mt-3 " />
-                                                <input className="form-control form-control-solid mt-3 " />
+                                                <input id="address" name="address" value={invDetails?.RemittanceAddress?.toString()} className={formInput} />
+                                                <input value='' className={formInput} />
+                                                <input className={formInput} />
+                                                <div className="form-group text-start">
+                                                    <label htmlFor="department" className={formLabel}>
+                                                        Department</label>
+                                                    <select id="department" name="department" className={formSelect}>
+                                                        <option></option>
+                                                    </select>
+                                                </div>
 
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col">
-                                                <div className="form-group text-start">
-                                                    <label htmlFor="department" className="form-label m-2 fw-bolder fs-6 gray-700">
-                                                        Department</label>
-                                                    <select id="department" name="department" className="form-select form-select-solid ">
-                                                        <option></option>
-                                                    </select>
+                                                <div className="form-group">
+                                                    <label htmlFor="Po" className={formLabel}>
+                                                        PO No</label>
+                                                    <input id="poNo" name="poNo" className={formInput} value={''} />
                                                 </div>
                                             </div>
                                             <div className="col">
                                                 <div>
-                                                    <label htmlFor="location" className="form-label m-2 fw-bolder  fs-6 gray-700  ">
+                                                    <label htmlFor="location" className={formLabel}>
                                                         Location</label>
-                                                    <select id="location" name="location" className="form-select form-select-solid ">
+                                                    <select id="location" name="location" className={formSelect}>
                                                         <option>{ }</option>
                                                     </select>
                                                 </div>
@@ -209,7 +192,7 @@ export const InvoiceDetail = (props) => {
                                                 <div className="d-flex flex-column">
                                                     <label htmlFor="invoiceNumber"
                                                         className="form-label fw-bolder  fs-6 gray-700   m-2">InvoiceNumber</label>
-                                                    <input id="invoiceNumber" value={invDetails?.InvoiceNumber?.toString()} className="form-control form-control-solid " maxLength={20} />
+                                                    <input id="invoiceNumber" value={invDetails?.InvoiceNumber?.toString()} className={formInput} maxLength={20} />
 
                                                     <div className="form-check py-auto">
                                                         <label htmlFor="creditMemo"
@@ -220,57 +203,57 @@ export const InvoiceDetail = (props) => {
                                                 </div>
                                             </div>
                                             <div className="col-3">
-                                                <label htmlFor="invoiceDate" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Invoice
+                                                <label htmlFor="invoiceDate" className={formLabel}>Invoice
                                                     Date</label>
                                                 <input value={invDetails?.InvoiceDate?.toString()} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
-                                                    maxLength={10} className="form-control form-control-solid  " />
+                                                    maxLength={10} className={formInput} />
 
                                             </div>
                                             <div className=" col-3">
-                                                <label htmlFor="postingPeriod" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Posting
+                                                <label htmlFor="postingPeriod" className={formLabel}>Posting
                                                     Period</label>
-                                                <input className="form-control form-control-solid " value={''} maxLength={20} />
+                                                <input className={formInput} value={''} maxLength={20} />
                                             </div>
                                             <div className="col-3">
-                                                <label htmlFor="dueDate" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Due
+                                                <label htmlFor="dueDate" className={formLabel}>Due
                                                     Date</label>
                                                 <input value={invDetails?.DueDate?.toString()} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
-                                                    maxLength={10} className="form-control form-control-solid  " />
+                                                    maxLength={10} className={formInput} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-3">
-                                                <label htmlFor="invoiceAmount" className="form-label m-2 fw-bolder  fs-6 gray-700  ">Invoice
+                                                <label htmlFor="invoiceAmount" className={formLabel}>Invoice
                                                     Amount</label>
-                                                <input className="form-control form-control-solid " value={`$ ${invDetails?.TotalAmount}`} maxLength={15} />
+                                                <input className={formInput} value={`$ ${invDetails?.TotalAmount}`} maxLength={15} />
                                             </div>
                                             <div className="col-3">
-                                                <label className="form-label m-2 fw-bolder  fs-6 gray-700  ">Currency</label>
-                                                <input type="text" value={"USD"} className="form-control form-control-solid " maxLength={5} />
+                                                <label className={formLabel}>Currency</label>
+                                                <input type="text" value={"USD"} className={formInput} maxLength={5} />
                                             </div>
                                             <div className="col-3">
-                                                <label className="form-label m-2 fw-bolder  fs-6 gray-700 ">Subtotal</label>
-                                                <input type="text" value={`$ `} className="form-control form-control-solid " maxLength={12} />
+                                                <label className={formLabel}>Subtotal</label>
+                                                <input type="text" value={`$ `} className={formInput} maxLength={12} />
                                             </div>
                                             <div className="col-3">
-                                                <label className="form-label m-2 fw-bolder  fs-6 gray-700  ">PO Subtotal</label>
-                                                <input type="text" value={`$ `} className="form-control form-control-solid " maxLength={10} />
+                                                <label className={formLabel}>PO Subtotal</label>
+                                                <input type="text" value={`$ `} className={formInput} maxLength={10} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col">
-                                                <label htmlFor="memo" className="form-label m-2 fw-bolder  fs-6   ">Memo</label>
-                                                <input type="text" className="form-control form-control-solid  " />
+                                                <label htmlFor="memo" className={formLabel}>Memo</label>
+                                                <input type="text" className={formInput} />
                                             </div>
                                             <div className="col">
-                                                <label htmlFor="approver" className="form-label m-2 fw-bolder  fs-6  ">Approver</label>
-                                                <input type="text" className="form-control form-control-solid  " />
+                                                <label htmlFor="approver" className={formLabel}>Approver</label>
+                                                <input type="text" className={formInput} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-6">
                                                 <div className="d-flex flex-stack">
-                                                    <label className="form-label fs-6 fw-bolder m-2">Attachments</label>
+                                                    <label className={formLabel}>Attachments</label>
                                                     <div>
                                                         <button type="button" title="Add" className="btn btn-icon-primary" data-bs-toggle={"modal"} data-bs-target="#kt_modal_1"><span
                                                             className="svg-icon svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg"
@@ -324,10 +307,10 @@ export const InvoiceDetail = (props) => {
                                             </div>
                                             <div className="col-6">
                                                 <div className="col d-flex flex-column ">
-                                                    <div className="w-100 me-10">
-                                                        <label htmlFor="comments" className="form-label m-2 fs-6 fw-bolder ">
+                                                    <div className="w-100">
+                                                        <label htmlFor="comments" className="form-label fs-6 fw-bolder mt-2">
                                                             Comments</label>
-                                                        <textarea className="form-control form-control-solid m-2"></textarea>
+                                                        <textarea className="form-control form-control-solid mt-2"></textarea>
                                                     </div>
                                                     <div className="d-flex justify-content-end">
                                                         <button className="btn btn-light-success btn-sm m-2">Approved
@@ -378,7 +361,7 @@ export const InvoiceDetail = (props) => {
                                     <div className="row d-flex">
                                         <div id="pdf" className=" col-6 collapse show fade">
                                             <div className="m-3">
-                                                <PdfViewer pdfurl={data.InvoiceId} />
+                                                <PdfViewer pdfurl={props.data} />
                                             </div>
                                         </div>
                                         <div className={collapseClass}>
@@ -404,7 +387,7 @@ export const InvoiceDetail = (props) => {
                                                                 <tr>
                                                                     <th className="min-w-10px">Qty</th>
                                                                     <th className="min-w-80px">PO Qty</th>
-                                                                    <th className="min-w-100px">Items</th>
+                                                                    <th className="min-w-100px">Item</th>
                                                                     <th className="min-w-150px">Vendor Part#</th>
                                                                     <th className="min-w-250px">Description</th>
                                                                     <th className="min-w-100px">Department</th>
@@ -438,11 +421,7 @@ export const InvoiceDetail = (props) => {
                                                                 <tr className="fw-bold">
                                                                     <th colSpan={9}></th>
                                                                     <th>Items Subtotal</th>
-                                                                    <th>{
-                                                                        listItems.map(listItem => {
-                                                                            return total += listItem.Amount
-                                                                        })
-                                                                    }</th>
+                                                                    <th>{`$ ${subTotal}`}</th>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
