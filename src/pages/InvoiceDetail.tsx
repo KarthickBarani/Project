@@ -5,8 +5,7 @@ import { PdfViewer } from "../components/PdfViewer";
 
 
 type invDetails = {
-
-    InvoiceId: number,
+    InvoiceId: null | number,
     CustomerName: null | string,
     CustomerId: null | string,
     VendorName: null | string,
@@ -22,15 +21,14 @@ type invDetails = {
     RemittanceAddress: null | string,
     RemittanceAddressRecipient: null | string,
     PurchaseNumber: null | string,
-    DueDate: null | string,
-    InvoiceDate: null | string,
-    TotalAmount: number,
+    DueDate: string,
+    InvoiceDate: string,
+    TotalAmount: null | number,
     LineItems: null | string,
     AmountDue: number,
     LastModifiedDateTime: null | string,
     TransactionDate: null | string,
     ReceivedDate: null | string
-
 }
 
 type listItems = {
@@ -122,15 +120,35 @@ export const InvoiceDetail = (props) => {
                                 <form>
                                     <div className="container-fluid">
                                         <div className="row">
-                                            <div className="col">
+                                            <div className="col-4">
                                                 <div className="form-group text-start">
                                                     <label htmlFor="vendorName" className={formLabel}>Vendor
                                                         Name</label>
-                                                    <select id="vendorName" name="vendorName" className={formSelect}>
-                                                        <option value="1">{invDetails?.VendorName}</option>
+                                                    <div className="input-group input-group-solid">
+                                                        <select id="vendorName" name="vendorName" className={formSelect}>
+                                                            <option value="1">{invDetails?.VendorName}</option>
+                                                        </select>
+                                                        <button className='btn btn-secondary btn-sm' >Search</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-2">
+                                                <label htmlFor="vendorId" className={formLabel}>
+                                                    Vendor Id</label>
+                                                <input className={formInput} type="text" />
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="form-group text-start">
+                                                    <label htmlFor="remitTo" className={formLabel}>Remit
+                                                        To</label>
+                                                    <select id="remitTo" name="remitTo" className={formSelect}>
+                                                        <option>{invDetails?.CustomerName}</option>
                                                     </select>
                                                 </div>
-
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col">
                                                 <div className="form-group">
                                                     <label htmlFor="vendorAddress" className={formLabel}>Vendor
                                                         Address</label>
@@ -147,13 +165,6 @@ export const InvoiceDetail = (props) => {
                                                 </div>
                                             </div>
                                             <div className="col">
-                                                <div className="form-group text-start">
-                                                    <label htmlFor="remitTo" className={formLabel}>Remit
-                                                        To</label>
-                                                    <select id="remitTo" name="remitTo" className={formSelect}>
-                                                        <option>{invDetails?.CustomerName}</option>
-                                                    </select>
-                                                </div>
                                                 <label htmlFor="address" className={formLabel}>
                                                     Address</label>
                                                 <input id="address" name="address" value={invDetails?.RemittanceAddress?.toString()} className={formInput} />
@@ -166,18 +177,32 @@ export const InvoiceDetail = (props) => {
                                                         <option></option>
                                                     </select>
                                                 </div>
-
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col">
+                                            <div className="col-3">
                                                 <div className="form-group">
-                                                    <label htmlFor="Po" className={formLabel}>
-                                                        PO No</label>
-                                                    <input id="poNo" name="poNo" className={formInput} value={''} />
+                                                    <label htmlFor="poNo" className={formLabel}>
+                                                        PO #</label>
+                                                    <div className='input-group input-group-solid'>
+                                                        <select id="poNo" name="poNo" className={formSelect}>
+                                                            <option>{invDetails.PurchaseNumber}</option>
+                                                        </select>
+                                                        <button className='btn btn-secondary btn-sm'><span className="svg-icon svg-icon-light svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path d="M14.5 20.7259C14.6 21.2259 14.2 21.826 13.7 21.926C13.2 22.026 12.6 22.0259 12.1 22.0259C9.5 22.0259 6.9 21.0259 5 19.1259C1.4 15.5259 1.09998 9.72592 4.29998 5.82592L5.70001 7.22595C3.30001 10.3259 3.59999 14.8259 6.39999 17.7259C8.19999 19.5259 10.8 20.426 13.4 19.926C13.9 19.826 14.4 20.2259 14.5 20.7259ZM18.4 16.8259L19.8 18.2259C22.9 14.3259 22.7 8.52593 19 4.92593C16.7 2.62593 13.5 1.62594 10.3 2.12594C9.79998 2.22594 9.4 2.72595 9.5 3.22595C9.6 3.72595 10.1 4.12594 10.6 4.02594C13.1 3.62594 15.7 4.42595 17.6 6.22595C20.5 9.22595 20.7 13.7259 18.4 16.8259Z" fill="black" />
+                                                            <path opacity="0.3" d="M2 3.62592H7C7.6 3.62592 8 4.02592 8 4.62592V9.62589L2 3.62592ZM16 14.4259V19.4259C16 20.0259 16.4 20.4259 17 20.4259H22L16 14.4259Z" fill="black" />
+                                                        </svg></span>Refresh</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-3">
+                                                <div className="form-group">
+                                                    <label htmlFor="tax" className={formLabel}>
+                                                        Tax</label>
+                                                    <input id="tax" name="tax" className={formInput} />
+                                                </div>
+                                            </div>
+                                            <div className="col-6">
                                                 <div>
                                                     <label htmlFor="location" className={formLabel}>
                                                         Location</label>
@@ -205,7 +230,7 @@ export const InvoiceDetail = (props) => {
                                             <div className="col-3">
                                                 <label htmlFor="invoiceDate" className={formLabel}>Invoice
                                                     Date</label>
-                                                <input value={invDetails?.InvoiceDate?.toString()} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
+                                                <input value={(new Date(invDetails?.InvoiceDate)).toLocaleDateString()}
                                                     maxLength={10} className={formInput} />
 
                                             </div>
@@ -217,7 +242,7 @@ export const InvoiceDetail = (props) => {
                                             <div className="col-3">
                                                 <label htmlFor="dueDate" className={formLabel}>Due
                                                     Date</label>
-                                                <input value={invDetails?.DueDate?.toString()} data-inputmask="'mask': '99/99/9999','placeholder':'MM/DD/YYYY'"
+                                                <input value={(new Date(invDetails.DueDate)).toLocaleDateString() === '1/1/1' ? '' : (new Date(invDetails.DueDate)).toLocaleDateString()}
                                                     maxLength={10} className={formInput} />
                                             </div>
                                         </div>
@@ -225,7 +250,7 @@ export const InvoiceDetail = (props) => {
                                             <div className="col-3">
                                                 <label htmlFor="invoiceAmount" className={formLabel}>Invoice
                                                     Amount</label>
-                                                <input className={formInput} value={`$ ${invDetails?.TotalAmount}`} maxLength={15} />
+                                                <input className={formInput} value={`$ ${invDetails ? invDetails.TotalAmount?.toFixed(2) : ''}`} maxLength={15} />
                                             </div>
                                             <div className="col-3">
                                                 <label className={formLabel}>Currency</label>
@@ -233,11 +258,11 @@ export const InvoiceDetail = (props) => {
                                             </div>
                                             <div className="col-3">
                                                 <label className={formLabel}>Subtotal</label>
-                                                <input type="text" value={`$ `} className={formInput} maxLength={12} />
+                                                <input type="text" value={`$ 0.00`} className={formInput} maxLength={12} />
                                             </div>
                                             <div className="col-3">
                                                 <label className={formLabel}>PO Subtotal</label>
-                                                <input type="text" value={`$ `} className={formInput} maxLength={10} />
+                                                <input type="text" value={`$ 0.00`} className={formInput} maxLength={10} />
                                             </div>
                                         </div>
                                         <div className="row">
@@ -409,19 +434,21 @@ export const InvoiceDetail = (props) => {
                                                                             <td>{listItem.Description}</td>
                                                                             <td></td>
                                                                             <td></td>
-                                                                            <td>{`$ ${listItem.UnitPrice}`}</td>
-                                                                            <td>{`$ ${listItem.Amount}`}</td>
+                                                                            <td>{`$ ${listItem.UnitPrice.toFixed(2)}`}</td>
+                                                                            <td>{`$ ${listItem.Amount.toFixed(2)}`}</td>
                                                                             <td></td>
-                                                                            <td>{`$ ${listItem.Amount}`}</td>
+                                                                            <td>{ }</td>
                                                                         </tr>
                                                                     )
                                                                 })}
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr className="fw-bold">
-                                                                    <th colSpan={9}></th>
-                                                                    <th>Items Subtotal</th>
-                                                                    <th>{`$ ${subTotal}`}</th>
+                                                                    <th colSpan={7}></th>
+                                                                    <th className="min-w-150px">Items Subtotal</th>
+                                                                    <th>{`$ ${subTotal.toFixed(2)}`}</th>
+                                                                    <th></th>
+                                                                    <th></th>
                                                                 </tr>
                                                             </tfoot>
                                                         </table>

@@ -253,7 +253,8 @@ export const Table = ({ setPass }) => {
                                 </span>&nbsp;&nbsp;
                                 <span role="button" data-bs-toggle="popover" data-bs-dismiss="true" data-bs-placement="top" title="Error Code: No Error" className="svg-icon svg-icon-danger svg-icon-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="black" />
-                                    <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black" />
+                                    <rect x="11" y="14" width="7" height="2" rx="1" transform="rotate(-90 11 14)" fill="black" />
+                                    <rect x="11" y="17" width="2" height="2" rx="1" transform="rotate(-90 11 17)" fill="black" />
                                 </svg></span>
                             </td>
                         )
@@ -261,7 +262,7 @@ export const Table = ({ setPass }) => {
                 },
                 {
                     Header: 'Recevied Date',
-                    accessor: 'ReceivedDate',
+                    accessor: row => new Date(row.ReceivedDate).toLocaleString(),
 
                 },
                 {
@@ -274,7 +275,7 @@ export const Table = ({ setPass }) => {
                 },
                 {
                     Header: 'Invoice Date',
-                    accessor: 'InvoiceDate',
+                    accessor: row => new Date(row.InvoiceDate).toLocaleDateString(),
                 },
                 {
                     Header: 'Inv #',
@@ -303,7 +304,8 @@ export const Table = ({ setPass }) => {
                     accessor: 'currency',
                 }, {
                     Header: 'Total',
-                    accessor: 'TotalAmount',
+                    accessor: row => `$ ${row.TotalAmount.toFixed(2)}`,
+
                 }
             ],
         []
@@ -412,7 +414,7 @@ export const Table = ({ setPass }) => {
                                             return (
                                                 <tr role={'button'} onClick={() => {
                                                     setPass(row.original.InvoiceId)
-                                                    setTimeout(() => navigation('/InvoiceDetail'))
+                                                    setTimeout(() => navigation('/InvoiceDetail'), 1)
                                                 }}
                                                     {...row.getRowProps()} >
                                                     {
