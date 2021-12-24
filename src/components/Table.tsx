@@ -210,10 +210,11 @@ export const Table = ({ setPass }) => {
     useEffect(() => {
         axios.get('https://invoiceprocessingapi.azurewebsites.net/api/Invoice').then(res => {
             setData(res.data)
+            console.log(data)
         }).catch(err => {
             console.log(err)
         })
-    }, [])
+    }, [Table])
 
     const navigation = useNavigate()
 

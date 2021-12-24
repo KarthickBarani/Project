@@ -1,34 +1,37 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Form } from "../components/Form";
 import { PdfViewer } from "../components/PdfViewer";
 
 
 type invDetails = {
-    InvoiceId: null | number,
-    CustomerName: null | string,
-    CustomerId: null | string,
-    VendorName: null | string,
-    VendorAddress: null | string,
-    VendorAddressRecipient: null | string,
-    InvoiceNumber: null | string,
-    CustomerAddress: null | string,
-    CustomerAddressRecipient: null | string,
-    ShippingAddress: null | string,
-    ShippingAddressRecipient: null | string,
-    BillingAddress: null | string,
-    BillingAddressRecipient: null | string,
-    RemittanceAddress: null | string,
-    RemittanceAddressRecipient: null | string,
-    PurchaseNumber: null | string,
+    InvoiceId: number,
+    CustomerName: string,
+    CustomerId: string,
+    VendorId: string,
+    VendorName: string,
+    VendorAddress: string,
+    VendorAddressRecipient: string,
+    InvoiceNumber: string,
+    CustomerAddress: string,
+    CustomerAddressRecipient: string,
+    ShippingAddress: string,
+    ShippingAddressRecipient: string,
+    BillingAddress: string,
+    BillingAddressRecipient: string,
+    RemittanceAddress: string,
+    RemittanceAddressRecipient: string,
+    PurchaseNumber: string,
     DueDate: string,
     InvoiceDate: string,
-    TotalAmount: null | number,
-    LineItems: null | string,
+    TotalAmount: number,
+    TaxTotal: number,
+    LineItems: string,
     AmountDue: number,
-    LastModifiedDateTime: null | string,
-    TransactionDate: null | string,
-    ReceivedDate: null | string
+    LastModifiedDateTime: string,
+    TransactionDate: string,
+    ReceivedDate: string
 }
 
 type listItems = {
@@ -53,29 +56,24 @@ type listItems = {
 export const InvoiceDetail = (props) => {
     const [init, set] = useState(true)
     const [listItems, setListItems] = useState<listItems>([])
-    const [invDetails, setInvDetails] = useState<invDetails>({} as invDetails)
+
 
 
     useEffect(() => {
         axios.get(`https://invoiceprocessingapi.azurewebsites.net/lineitems/${props.data}`).then(res => {
             setListItems(res.data)
         }).catch(err => { console.log(err) })
-    }, [])
+    }, [props])
 
-    useEffect(() => {
-        axios.get(`https://invoiceprocessingapi.azurewebsites.net/Details/${props.data}`).then(res => {
-            setInvDetails(res.data)
-        }).catch(err => { console.log(err) })
-    }, [])
+
+
+
 
     const reducer = (prevVal, currentVal) => prevVal + currentVal.Amount
     const subTotal: number = listItems.reduce(reducer, 0)
 
 
     // style variable
-    const formInput = 'form-control form-control-solid mt-1'
-    const formSelect = 'form-select form-select-solid'
-    const formLabel = 'form-label fw-bolder fs-6 gray-700 mt-2'
 
     const pdfToggle = init ? 'Hide Invoice' : 'Show Invoice'
     const collapseClass = init ? 'col-6' : 'col-12'
@@ -117,25 +115,29 @@ export const InvoiceDetail = (props) => {
                                 </div>
                             </div>
                             <div className="card-body">
-                                <form>
+                                <Form invDetails={props.data} ></Form>
+                                {/* <form>
                                     <div className="container-fluid">
                                         <div className="row">
                                             <div className="col-4">
-                                                <div className="form-group text-start">
+                                                <div className="form-group">
                                                     <label htmlFor="vendorName" className={formLabel}>Vendor
                                                         Name</label>
                                                     <div className="input-group input-group-solid">
                                                         <select id="vendorName" name="vendorName" className={formSelect}>
                                                             <option value="1">{invDetails?.VendorName}</option>
                                                         </select>
-                                                        <button className='btn btn-secondary btn-sm' >Search</button>
+                                                        <button className='btn btn-secondary btn-sm' ><span className="svg-icon svg-icon-muted svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path d="M21.7 18.9L18.6 15.8C17.9 16.9 16.9 17.9 15.8 18.6L18.9 21.7C19.3 22.1 19.9 22.1 20.3 21.7L21.7 20.3C22.1 19.9 22.1 19.3 21.7 18.9Z" fill="black" />
+                                                            <path opacity="0.3" d="M11 20C6 20 2 16 2 11C2 6 6 2 11 2C16 2 20 6 20 11C20 16 16 20 11 20ZM11 4C7.1 4 4 7.1 4 11C4 14.9 7.1 18 11 18C14.9 18 18 14.9 18 11C18 7.1 14.9 4 11 4ZM8 11C8 9.3 9.3 8 11 8C11.6 8 12 7.6 12 7C12 6.4 11.6 6 11 6C8.2 6 6 8.2 6 11C6 11.6 6.4 12 7 12C7.6 12 8 11.6 8 11Z" fill="black" />
+                                                        </svg></span></button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="col-2">
                                                 <label htmlFor="vendorId" className={formLabel}>
                                                     Vendor Id</label>
-                                                <input className={formInput} type="text" />
+                                                <input className={formInput} id="vendorId" name="vendorId" type="text" value={invDetails?.VendorId?.toString()} />
                                             </div>
                                             <div className="col-6">
                                                 <div className="form-group text-start">
@@ -180,26 +182,19 @@ export const InvoiceDetail = (props) => {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-3">
+                                            <div className="col-6">
                                                 <div className="form-group">
                                                     <label htmlFor="poNo" className={formLabel}>
                                                         PO #</label>
                                                     <div className='input-group input-group-solid'>
                                                         <select id="poNo" name="poNo" className={formSelect}>
-                                                            <option>{invDetails.PurchaseNumber}</option>
+                                                            <option>{invDetails?.PurchaseNumber}</option>
                                                         </select>
                                                         <button className='btn btn-secondary btn-sm'><span className="svg-icon svg-icon-light svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                             <path d="M14.5 20.7259C14.6 21.2259 14.2 21.826 13.7 21.926C13.2 22.026 12.6 22.0259 12.1 22.0259C9.5 22.0259 6.9 21.0259 5 19.1259C1.4 15.5259 1.09998 9.72592 4.29998 5.82592L5.70001 7.22595C3.30001 10.3259 3.59999 14.8259 6.39999 17.7259C8.19999 19.5259 10.8 20.426 13.4 19.926C13.9 19.826 14.4 20.2259 14.5 20.7259ZM18.4 16.8259L19.8 18.2259C22.9 14.3259 22.7 8.52593 19 4.92593C16.7 2.62593 13.5 1.62594 10.3 2.12594C9.79998 2.22594 9.4 2.72595 9.5 3.22595C9.6 3.72595 10.1 4.12594 10.6 4.02594C13.1 3.62594 15.7 4.42595 17.6 6.22595C20.5 9.22595 20.7 13.7259 18.4 16.8259Z" fill="black" />
                                                             <path opacity="0.3" d="M2 3.62592H7C7.6 3.62592 8 4.02592 8 4.62592V9.62589L2 3.62592ZM16 14.4259V19.4259C16 20.0259 16.4 20.4259 17 20.4259H22L16 14.4259Z" fill="black" />
-                                                        </svg></span>Refresh</button>
+                                                        </svg></span></button>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-3">
-                                                <div className="form-group">
-                                                    <label htmlFor="tax" className={formLabel}>
-                                                        Tax</label>
-                                                    <input id="tax" name="tax" className={formInput} />
                                                 </div>
                                             </div>
                                             <div className="col-6">
@@ -217,32 +212,32 @@ export const InvoiceDetail = (props) => {
                                                 <div className="d-flex flex-column">
                                                     <label htmlFor="invoiceNumber"
                                                         className="form-label fw-bolder  fs-6 gray-700   m-2">InvoiceNumber</label>
-                                                    <input id="invoiceNumber" value={invDetails?.InvoiceNumber?.toString()} className={formInput} maxLength={20} />
+                                                    <input id="invoiceNumber" name="invoiceNumber" value={invDetails.InvoiceNumber?.toString()} className={formInput} maxLength={20} />
 
                                                     <div className="form-check py-auto">
                                                         <label htmlFor="creditMemo"
                                                             className="form-check-label mt-5 fw-bolder fs-6 gray-700  ">Credit
                                                             Memo?</label>
-                                                        <input type="checkbox" className="form-check-input form-check-solid mt-5" />
+                                                        <input type="checkbox" id="creditMemo" name="creditMemo" className="form-check-input form-check-solid mt-5" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="col-3">
                                                 <label htmlFor="invoiceDate" className={formLabel}>Invoice
                                                     Date</label>
-                                                <input value={(new Date(invDetails?.InvoiceDate)).toLocaleDateString()}
+                                                <input id="invoiceDate" name="invoiceDate" value={(new Date(invDetails?.InvoiceDate)).toLocaleDateString()}
                                                     maxLength={10} className={formInput} />
 
                                             </div>
                                             <div className=" col-3">
                                                 <label htmlFor="postingPeriod" className={formLabel}>Posting
                                                     Period</label>
-                                                <input className={formInput} value={''} maxLength={20} />
+                                                <input id="postingPeriod" name="postingPeriod" className={formInput} value={''} maxLength={20} />
                                             </div>
                                             <div className="col-3">
                                                 <label htmlFor="dueDate" className={formLabel}>Due
                                                     Date</label>
-                                                <input value={(new Date(invDetails.DueDate)).toLocaleDateString() === '1/1/1' ? '' : (new Date(invDetails.DueDate)).toLocaleDateString()}
+                                                <input id="dueDate" name="dueDate" value={(new Date(invDetails?.DueDate)).toLocaleDateString() === '1/1/1' ? '' : (new Date(invDetails.DueDate)).toLocaleDateString()}
                                                     maxLength={10} className={formInput} />
                                             </div>
                                         </div>
@@ -250,29 +245,36 @@ export const InvoiceDetail = (props) => {
                                             <div className="col-3">
                                                 <label htmlFor="invoiceAmount" className={formLabel}>Invoice
                                                     Amount</label>
-                                                <input className={formInput} value={`$ ${invDetails ? invDetails.TotalAmount?.toFixed(2) : ''}`} maxLength={15} />
+                                                <input id="invoiceAmount" name="invoiceAmount" className={formInput} value={`$ ${invDetails ? invDetails.TotalAmount?.toFixed(2) : ''}`} maxLength={15} />
+                                            </div>
+                                            <div className="col-3 d-flex">
+                                                <div className="form-group me-1">
+                                                    <label htmlFor="curreny" className={formLabel}>Currency</label>
+                                                    <input id="curreny" name="curreny" type="text" value={"USD"} className={formInput} maxLength={5} />
+                                                </div>
+                                                <div className="form-group ms-1">
+                                                    <label htmlFor="tax" className={formLabel}>
+                                                        Tax</label>
+                                                    <input id="tax" name="tax" className={formInput} value={`$ ${invDetails ? invDetails.TaxTotal?.toFixed(2) : ''}`} />
+                                                </div>
                                             </div>
                                             <div className="col-3">
-                                                <label className={formLabel}>Currency</label>
-                                                <input type="text" value={"USD"} className={formInput} maxLength={5} />
+                                                <label htmlFor="exSubtotal" className={formLabel}>Expenses Subtotal</label>
+                                                <input id="exSubtotal" name="exSubtotal" type="text" value={`$ `} className={formInput} maxLength={12} />
                                             </div>
                                             <div className="col-3">
-                                                <label className={formLabel}>Subtotal</label>
-                                                <input type="text" value={`$ 0.00`} className={formInput} maxLength={12} />
-                                            </div>
-                                            <div className="col-3">
-                                                <label className={formLabel}>PO Subtotal</label>
-                                                <input type="text" value={`$ 0.00`} className={formInput} maxLength={10} />
+                                                <label htmlFor="poSubtotal" className={formLabel}>PO Subtotal</label>
+                                                <input id="poSubtotal" name="poSubtotal" type="text" value={`$ `} className={formInput} maxLength={10} />
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col">
                                                 <label htmlFor="memo" className={formLabel}>Memo</label>
-                                                <input type="text" className={formInput} />
+                                                <input id="memo" name="memo" type="text" className={formInput} />
                                             </div>
                                             <div className="col">
                                                 <label htmlFor="approver" className={formLabel}>Approver</label>
-                                                <input type="text" className={formInput} />
+                                                <input id="approver" name="approver" type="text" className={formInput} />
                                             </div>
                                         </div>
                                         <div className="row">
@@ -366,10 +368,8 @@ export const InvoiceDetail = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row mt-5">
-                                        </div>
                                     </div>
-                                </form>
+                                </form> */}
                             </div>
                         </div>
                     </div >
@@ -455,40 +455,45 @@ export const InvoiceDetail = (props) => {
                                                     </div>
                                                 </div>
                                                 <div className="tab-pane fade show active h-100" id="expensesTab" role="tabpanel">
-                                                    <div className="d-flex flex-row-reverse mt-2">
-                                                        <button title="Delete" className="btn btn-icon-danger" data-bs-toggle="tooltip">
-                                                            <span className="svg-icon svg-icon-2"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none">
-                                                                <path
-                                                                    d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
-                                                                    fill="black" />
-                                                                <path opacity="0.5"
-                                                                    d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z"
-                                                                    fill="black" />
-                                                                <path opacity="0.5"
-                                                                    d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z"
-                                                                    fill="black" />
-                                                            </svg></span></button>
-                                                        <button title="Copy" className="btn btn-icon-secondary"
-                                                            data-bs-toggle="tooltip"> <span className="svg-icon svg-icon-2"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none">
-                                                                <rect opacity="0.5" x="7" y="2" width="14" height="16" rx="3"
-                                                                    fill="black" />
-                                                                <rect x="3" y="6" width="14" height="16" rx="3" fill="black" />
-                                                            </svg></span></button>
-                                                        <button title="Add" className="btn btn-icon-primary " data-bs-toggle="tooltip">
-                                                            <span className="svg-icon svg-icon-2"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none">
-                                                                <path opacity="0.3"
-                                                                    d="M3 13V11C3 10.4 3.4 10 4 10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14H4C3.4 14 3 13.6 3 13Z"
-                                                                    fill="black" />
-                                                                <path
-                                                                    d="M13 21H11C10.4 21 10 20.6 10 20V4C10 3.4 10.4 3 11 3H13C13.6 3 14 3.4 14 4V20C14 20.6 13.6 21 13 21Z"
-                                                                    fill="black" />
-                                                            </svg></span></button>
+                                                    <div className="d-flex flex-row-reverse mt-2 me-2">
+
+                                                        <span title="Refresh" role='button' className="svg-icon svg-icon-primary svg-icon-2 mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path d="M14.5 20.7259C14.6 21.2259 14.2 21.826 13.7 21.926C13.2 22.026 12.6 22.0259 12.1 22.0259C9.5 22.0259 6.9 21.0259 5 19.1259C1.4 15.5259 1.09998 9.72592 4.29998 5.82592L5.70001 7.22595C3.30001 10.3259 3.59999 14.8259 6.39999 17.7259C8.19999 19.5259 10.8 20.426 13.4 19.926C13.9 19.826 14.4 20.2259 14.5 20.7259ZM18.4 16.8259L19.8 18.2259C22.9 14.3259 22.7 8.52593 19 4.92593C16.7 2.62593 13.5 1.62594 10.3 2.12594C9.79998 2.22594 9.4 2.72595 9.5 3.22595C9.6 3.72595 10.1 4.12594 10.6 4.02594C13.1 3.62594 15.7 4.42595 17.6 6.22595C20.5 9.22595 20.7 13.7259 18.4 16.8259Z" fill="black" />
+                                                            <path opacity="0.3" d="M2 3.62592H7C7.6 3.62592 8 4.02592 8 4.62592V9.62589L2 3.62592ZM16 14.4259V19.4259C16 20.0259 16.4 20.4259 17 20.4259H22L16 14.4259Z" fill="black" />
+                                                        </svg></span>
+
+                                                        <span title="Delete" role='button' className="svg-icon svg-icon-2 svg-icon-danger mx-2"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none">
+                                                            <path
+                                                                d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
+                                                                fill="black" />
+                                                            <path opacity="0.5"
+                                                                d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z"
+                                                                fill="black" />
+                                                            <path opacity="0.5"
+                                                                d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z"
+                                                                fill="black" />
+                                                        </svg></span>
+
+                                                        <span title="Copy" role='button' className="svg-icon svg-icon-2 svg-icon-secondary mx-2"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none">
+                                                            <rect opacity="0.5" x="7" y="2" width="14" height="16" rx="3"
+                                                                fill="black" />
+                                                            <rect x="3" y="6" width="14" height="16" rx="3" fill="black" />
+                                                        </svg></span>
+
+                                                        <span title="Add" role='button' className="svg-icon svg-icon-2 svg-icon-primary mx-2"><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none">
+                                                            <path opacity="0.3"
+                                                                d="M3 13V11C3 10.4 3.4 10 4 10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14H4C3.4 14 3 13.6 3 13Z"
+                                                                fill="black" />
+                                                            <path
+                                                                d="M13 21H11C10.4 21 10 20.6 10 20V4C10 3.4 10.4 3 11 3H13C13.6 3 14 3.4 14 4V20C14 20.6 13.6 21 13 21Z"
+                                                                fill="black" />
+                                                        </svg></span>
                                                     </div>
                                                     <div className="table-responsive m-3">
                                                         <table className="table table-bordered h-80 bg-light rounded min-h-80 gs-3 ">
@@ -496,9 +501,8 @@ export const InvoiceDetail = (props) => {
                                                                 <tr>
                                                                     <th>Account</th>
                                                                     <th>Amount</th>
-                                                                    <th>Dept</th>
-                                                                    <th>Location</th>
                                                                     <th>Memo</th>
+                                                                    <th>Location</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="bg-white" >
@@ -507,12 +511,11 @@ export const InvoiceDetail = (props) => {
                                                                     <td></td>
                                                                     <td></td>
                                                                     <td></td>
-                                                                    <td></td>
                                                                 </tr>
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr className="fw-bold">
-                                                                    <th colSpan={3}></th>
+                                                                    <th colSpan={2}></th>
                                                                     <th> Subtotal </th>
                                                                     <th>$ 0.00</th>
                                                                 </tr>
