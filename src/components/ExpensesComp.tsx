@@ -17,7 +17,7 @@ export const ExpensesComp = (props: {
                 return (
                     <tr>
                         <td></td>
-                        <td>{expense.Amount}</td>
+                        <td>{expense.Amount.toFixed(2)}</td>
                         <td>{expense.Memo}</td>
                         <td></td>
                     </tr>
