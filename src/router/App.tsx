@@ -10,14 +10,14 @@ import { InvoiceDetail } from '../pages/InvoiceDetail'
 
 function App() {
 
-  const [Data, setData] = useState({})
+  const [Data, setInvNumber] = useState({})
 
   return (
     <Router>
       <>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home setData={setData} />} />
+          <Route path="/" element={<Home setInvNumber={setInvNumber} />} />
           <Route path="InvoiceDetail" element={<InvoiceDetail data={Data} />} />
         </Routes>
       </>

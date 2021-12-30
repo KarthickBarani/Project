@@ -1,70 +1,30 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { useFormik } from "formik"
-import React from "react"
 
-type invDetails = {
-    InvoiceId: number,
-    CustomerName: string,
-    CustomerId: string,
-    VendorId: string,
-    VendorName: undefined | string,
-    VendorAddress: string,
-    VendorAddressRecipient: string,
-    InvoiceNumber: string,
-    CustomerAddress: string,
-    CustomerAddressRecipient: string,
-    ShippingAddress: string,
-    ShippingAddressRecipient: string,
-    BillingAddress: string,
-    BillingAddressRecipient: string,
-    RemittanceAddress: string,
-    RemittanceAddressRecipient: string,
-    PurchaseNumber: string,
-    DueDate: string,
-    InvoiceDate: string,
-    TotalAmount: undefined | number,
-    TaxTotal: undefined | number,
-    LineItems: string,
-    AmountDue: number,
-    LastModifiedDateTime: string,
-    TransactionDate: string,
-    ReceivedDate: string
-}
+import { useFormik } from "formik"
+
 
 export const Form = (props) => {
-
-    const [invDetails, setInvDetails] = useState<invDetails>({} as invDetails)
-    const [readOnly, setReadOnly] = useState(true)
-
-
-    useEffect(() => {
-        axios.get(`https://invoiceprocessingapi.azurewebsites.net/Details/${props.invDetails}`).then(res => {
-            setInvDetails(res.data)
-        }).catch(err => { console.log(err) })
-    }, [])
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            vendorName: invDetails?.VendorName,
-            vendorId: invDetails?.VendorId,
-            remitTo: invDetails.CustomerName,
-            vendorAddress: invDetails.VendorAddress,
+            vendorName: props.invDetails.VendorName,
+            vendorId: props.invDetails.VendorId,
+            remitTo: props.invDetails.CustomerName,
+            vendorAddress: props.invDetails.VendorAddress,
             subsidiary: '',
-            address: invDetails.RemittanceAddress,
+            address: props.invDetails.RemittanceAddress,
             department: '',
-            poNo: invDetails.PurchaseNumber,
+            poNo: props.invDetails.PurchaseNumber,
             location: '',
-            invoiceNumber: invDetails.InvoiceNumber,
-            invoiceDate: new Date(invDetails.InvoiceDate).toLocaleDateString() == '1/1/1' ? '' : new Date(invDetails.InvoiceDate).toLocaleDateString(),
+            invoiceNumber: props.invDetails.InvoiceNumber,
+            invoiceDate: new Date(props.invDetails.InvoiceDate).toLocaleDateString() === '1/1/1' ? '' : new Date(props.invDetails.InvoiceDate).toLocaleDateString(),
             postingPeriod: '',
-            dueDate: new Date(invDetails.DueDate).toLocaleDateString() == '1/1/1' ? '' : new Date(invDetails.DueDate).toLocaleDateString(),
-            invoiceAmount: `$ ${invDetails.TotalAmount?.toFixed(2)}`,
-            curreny: 'USD',
-            tax: `$ ${invDetails.TaxTotal?.toFixed(2)}`,
-            exSubtotal: `$ 0.00`,
-            poSubtotal: `$ 0.00`,
+            dueDate: new Date(props.invDetails.DueDate).toLocaleDateString() === '1/1/1' ? '' : new Date(props.invDetails.DueDate).toLocaleDateString(),
+            invoiceAmount: props.invDetails.TotalAmount?.toFixed(2),
+            currency: 'USD',
+            tax: props.invDetails.TaxTotal?.toFixed(2),
+            exSubtotal: 0,
+            poSubtotal: 0,
             memo: '',
             approver: '',
         },
@@ -73,11 +33,10 @@ export const Form = (props) => {
         }
     })
 
-    console.log(invDetails)
+
     const formInput = 'form-control form-control-solid mt-1'
     const formSelect = 'form-select form-select-solid'
     const formLabel = 'form-label fw-bolder fs-6 gray-700 mt-2'
-
 
 
     return (
@@ -102,7 +61,7 @@ export const Form = (props) => {
                     <div className="col-2">
                         <label htmlFor="vendorId" className={formLabel}>
                             Vendor Id</label>
-                        <input className={formInput} id="vendorId" name="vendorId" type="text" onChange={formik.handleChange} value={formik.values.vendorId} readOnly={readOnly} />
+                        <input className={formInput} id="vendorId" name="vendorId" type="text" onChange={formik.handleChange} value={formik.values.vendorId} />
                     </div>
                     <div className="col-6">
                         <div className="form-group text-start">
@@ -119,7 +78,7 @@ export const Form = (props) => {
                         <div className="form-group">
                             <label htmlFor="vendorAddress" className={formLabel}>Vendor
                                 Address</label>
-                            <input id="venderAddress" name="venderAddress" className={formInput} onChange={formik.handleChange} value={formik.values.vendorAddress} readOnly={readOnly} />
+                            <input id="venderAddress" name="venderAddress" className={formInput} onChange={formik.handleChange} value={formik.values.vendorAddress} />
                             <input value='' className={formInput} />
                             <input value='' className={formInput} />
                         </div>
@@ -134,7 +93,7 @@ export const Form = (props) => {
                     <div className="col">
                         <label htmlFor="address" className={formLabel}>
                             Address</label>
-                        <input id="address" name="address" className={formInput} onChange={formik.handleChange} value={formik.values.address} readOnly={readOnly} />
+                        <input id="address" name="address" className={formInput} onChange={formik.handleChange} value={formik.values.address} />
                         <input value='' className={formInput} />
                         <input className={formInput} />
                         <div className="form-group text-start">
@@ -177,7 +136,7 @@ export const Form = (props) => {
                         <div className="d-flex flex-column">
                             <label htmlFor="invoiceNumber"
                                 className="form-label fw-bolder  fs-6 gray-700   m-2">InvoiceNumber</label>
-                            <input id="invoiceNumber" name="invoiceNumber" className={formInput} maxLength={20} onChange={formik.handleChange} value={formik.values.invoiceNumber} readOnly={readOnly} />
+                            <input id="invoiceNumber" name="invoiceNumber" className={formInput} maxLength={20} onChange={formik.handleChange} value={formik.values.invoiceNumber} />
 
                             <div className="form-check py-auto">
                                 <label htmlFor="creditMemo"
@@ -191,71 +150,67 @@ export const Form = (props) => {
                         <label htmlFor="invoiceDate" className={formLabel}>Invoice
                             Date</label>
                         <input id="invoiceDate" name="invoiceDate"
-                            maxLength={10} className={formInput} onChange={formik.handleChange} value={formik.values.invoiceDate} readOnly={readOnly} />
+                            maxLength={10} className={formInput} onChange={formik.handleChange} value={formik.values.invoiceDate} />
 
                     </div>
                     <div className=" col-3">
                         <label htmlFor="postingPeriod" className={formLabel}>Posting
                             Period</label>
-                        <input id="postingPeriod" name="postingPeriod" className={formInput} maxLength={20} onChange={formik.handleChange} value={formik.values.postingPeriod} readOnly={readOnly} />
+                        <input id="postingPeriod" name="postingPeriod" className={formInput} maxLength={20} onChange={formik.handleChange} value={formik.values.postingPeriod} />
                     </div>
                     <div className="col-3">
                         <label htmlFor="dueDate" className={formLabel}>Due
                             Date</label>
                         <input id="dueDate" name="dueDate"
-                            maxLength={10} className={formInput} onChange={formik.handleChange} value={formik.values.dueDate} readOnly={readOnly} />
+                            maxLength={10} className={formInput} onChange={formik.handleChange} value={formik.values.dueDate} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-3">
                         <label htmlFor="invoiceAmount" className={formLabel}>Invoice
                             Amount</label>
-                        <input id="invoiceAmount" name="invoiceAmount" className={formInput} maxLength={15} onChange={formik.handleChange} value={formik.values.invoiceAmount} readOnly={readOnly} />
+                        <div className="input-group input-group-solid">
+                            <span className="input-group-text">$</span>
+                            <input id="invoiceAmount" name="invoiceAmount" className={formInput} maxLength={15} onChange={formik.handleChange} value={formik.values.invoiceAmount} />
+                        </div>
                     </div>
                     <div className="col-3 d-flex">
                         <div className="form-group me-1">
-                            <label htmlFor="curreny" className={formLabel}>Currency</label>
-                            <input id="curreny" name="curreny" type="text" className={formInput} maxLength={5} onChange={formik.handleChange} value={formik.values.curreny} readOnly={readOnly} />
+                            <label htmlFor="currency" className={formLabel}>Currency</label>
+                            <input id="currency" name="currency" type="text" className={formInput} maxLength={5} onChange={formik.handleChange} value={formik.values.currency} />
                         </div>
                         <div className="form-group ms-1">
                             <label htmlFor="tax" className={formLabel}>
                                 Tax</label>
-                            <input id="tax" name="tax" className={formInput} onChange={formik.handleChange} value={formik.values.tax} readOnly={readOnly} />
+                            <div className="input-group input-group-solid">
+                                <span className="input-group-text">$</span>
+                                <input id="tax" name="tax" className={formInput} onChange={formik.handleChange} value={formik.values.tax} />
+                            </div>
                         </div>
                     </div>
                     <div className="col-3">
                         <label htmlFor="exSubtotal" className={formLabel}>Expenses Subtotal</label>
                         <div className="input-group input-group-solid">
-                            <input id="exSubtotal" name="exSubtotal" type="text" onChange={formik.handleChange} value={formik.values.exSubtotal} className={formInput} maxLength={12} readOnly={readOnly} />
-                            <span onClick={(e) => {
-                                setReadOnly((prev) => prev = !prev)
-                                if (readOnly)
-                                    e.currentTarget.focus()
-                            }} role='button' id="basic-addon2" className="svg-icon svg-icon-muted svg-icon-2 input-group-text mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="black" />
-                                    <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="black" />
-                                </svg></span>
+                            <span className="input-group-text">$</span>
+                            <input id="exSubtotal" name="exSubtotal" type="text" onChange={formik.handleChange} value={formik.values.exSubtotal} className={formInput} maxLength={12} />
                         </div>
                     </div>
                     <div className="col-3">
                         <label htmlFor="poSubtotal" className={formLabel}>PO Subtotal</label>
                         <div className="input-group input-group-solid">
-                            <input id="poSubtotal" name="poSubtotal" type="text" onChange={formik.handleChange} value={formik.values.poSubtotal} className={formInput} maxLength={10} readOnly={readOnly} />
-                            <span role='button' id="basic-addon2" className="svg-icon svg-icon-muted svg-icon-2 input-group-text mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="black" />
-                                <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="black" />
-                            </svg></span>
+                            <span className="input-group-text">$</span>
+                            <input id="poSubtotal" name="poSubtotal" type="text" onChange={formik.handleChange} value={formik.values.poSubtotal} className={formInput} maxLength={10} />
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
                         <label htmlFor="memo" className={formLabel}>Memo</label>
-                        <input id="memo" name="memo" type="text" className={formInput} onChange={formik.handleChange} value={formik.values.memo} readOnly={readOnly} />
+                        <input id="memo" name="memo" type="text" className={formInput} onChange={formik.handleChange} value={formik.values.memo} />
                     </div>
                     <div className="col">
                         <label htmlFor="approver" className={formLabel}>Approver</label>
-                        <input id="approver" name="approver" type="text" className={formInput} onChange={formik.handleChange} value={formik.values.approver} readOnly={readOnly} />
+                        <input id="approver" name="approver" type="text" className={formInput} onChange={formik.handleChange} value={formik.values.approver} />
                     </div>
                 </div>
                 <div className="row">
@@ -343,7 +298,8 @@ export const Form = (props) => {
                                         <path
                                             d="M19.5 18L18.1 19.4C17.7 19.8 17.1 19.8 16.7 19.4L5.40001 8.1C5.00001 7.7 5.00001 7.1 5.40001 6.7L6.80001 5.3C7.20001 4.9 7.80001 4.9 8.20001 5.3L19.5 16.6C19.9 16.9 19.9 17.6 19.5 18Z"
                                             fill="black" />
-                                    </svg></span>
+                                    </svg>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -353,3 +309,4 @@ export const Form = (props) => {
         </form >
     )
 }
+

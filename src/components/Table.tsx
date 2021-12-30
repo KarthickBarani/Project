@@ -1,36 +1,35 @@
 import { useTable, useSortBy, useGlobalFilter } from 'react-table'
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-type InvoiceData = {
-    InvoiceId: number,
-    CustomerName: null | string,
-    CustomerId: null | string,
-    VendorName: string,
-    VendorAddress: null | string,
-    VendorAddressRecipient: null | string,
-    InvoiceNumber: null | string,
-    CustomerAddress: null | string,
-    CustomerAddressRecipient: null | string,
-    ShippingAddress: null | string,
-    ShippingAddressRecipient: null | string,
-    BillingAddress: null | string,
-    BillingAddressRecipient: null | string,
-    RemittanceAddress: null | string,
-    RemittanceAddressRecipient: null | string,
-    PurchaseNumber: null | string,
-    DueDate: null | string,
-    InvoiceDate: null | string,
-    TotalAmount: number,
-    LineItems: null | string,
-    AmountDue: number,
-    LastModifiedDateTime: null | string,
-    TransactionDate: null | string,
-    ReceivedDate: null | string
+// type InvoiceData = {
+//     InvoiceId: number,
+//     CustomerName: null | string,
+//     CustomerId: null | string,
+//     VendorName: string,
+//     VendorAddress: null | string,
+//     VendorAddressRecipient: null | string,
+//     InvoiceNumber: null | string,
+//     CustomerAddress: null | string,
+//     CustomerAddressRecipient: null | string,
+//     ShippingAddress: null | string,
+//     ShippingAddressRecipient: null | string,
+//     BillingAddress: null | string,
+//     BillingAddressRecipient: null | string,
+//     RemittanceAddress: null | string,
+//     RemittanceAddressRecipient: null | string,
+//     PurchaseNumber: null | string,
+//     DueDate: null | string,
+//     InvoiceDate: null | string,
+//     TotalAmount: number,
+//     LineItems: null | string,
+//     AmountDue: number,
+//     LastModifiedDateTime: null | string,
+//     TransactionDate: null | string,
+//     ReceivedDate: null | string
 
-}[]
+// }[]
 
 
 // export const data: tab = [
@@ -202,19 +201,13 @@ type InvoiceData = {
 
 
 
-export const Table = ({ setPass }) => {
+export const Table = ({ setPass, data }) => {
 
 
-    let [data, setData] = useState<InvoiceData>([])
 
-    useEffect(() => {
-        axios.get('https://invoiceprocessingapi.azurewebsites.net/api/Invoice').then(res => {
-            setData(res.data)
-            console.log(data)
-        }).catch(err => {
-            console.log(err)
-        })
-    }, [Table])
+
+
+
 
     const navigation = useNavigate()
 
@@ -282,7 +275,7 @@ export const Table = ({ setPass }) => {
                     Header: 'Inv #',
                     accessor: 'InvoiceNumber',
                 }, {
-                    Header: 'Due',
+                    Header: 'Due Amount',
                     accessor: 'AmountDue',
                 }, {
                     Header: 'PO',
