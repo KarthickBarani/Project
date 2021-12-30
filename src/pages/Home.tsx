@@ -92,7 +92,7 @@ export const Home = ({ setInvNumber }) => {
             </div>
             <div className="row justify-content-between g-5 my-3">
                 <div className="col">
-                    {loading ? <h4>Loading...</h4> : error ? <h4>Something Error from Server !!!</h4> : <Table setPass={setPass} data={data} />}
+                    {loading ? <Loading /> : error ? <h4>Something Error from Server !!!</h4> : <Table setPass={setPass} data={data} />}
                     {setInvNumber(Pass)}
                 </div>
             </div>

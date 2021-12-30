@@ -6,6 +6,7 @@ import { PdfViewer } from "../components/PdfViewer"
 import { ListItemsComp } from "../components/ListItemsComp"
 import { ExpensesComp } from "../components/ExpensesComp"
 import { useFormik } from "formik"
+import { Loading } from "../components/Loading"
 
 
 type expensesType = {
@@ -156,7 +157,7 @@ export const InvoiceDetail = (props) => {
                                 </div>
                             </div>
                             <div className="card-body">
-                                {loading ? <h4>Loading...</h4> : error ? <h4>Something Error in Server</h4> : <Form invDetails={invDetails} ></Form>}
+                                {loading ? <Loading /> : error ? <h4>Something Error in Server</h4> : <Form invDetails={invDetails} ></Form>}
                             </div>
                         </div>
                     </div >
@@ -193,7 +194,7 @@ export const InvoiceDetail = (props) => {
 
                                             <div className="tab-content h-100">
                                                 <div className="tab-pane fade h-100" id="itemsTab" role="tabpanel">
-                                                    {loading ? <h4>Loading...</h4> : <ListItemsComp listItems={listItems} setListItems={setListItems} />}
+                                                    {loading ? <Loading /> : <ListItemsComp listItems={listItems} setListItems={setListItems} />}
                                                 </div>
                                                 <div className="tab-pane fade show active h-100" id="expensesTab" role="tabpanel">
                                                     <div className="d-flex flex-row-reverse mt-2 me-2">
@@ -247,7 +248,7 @@ export const InvoiceDetail = (props) => {
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="bg-white" >
-                                                                {loading ? <h4>Loading...</h4> : <ExpensesComp expenses={expenses} setExpenses={setExpenses} />}
+                                                                {loading ? <Loading /> : <ExpensesComp expenses={expenses} setExpenses={setExpenses} />}
 
                                                             </tbody>
                                                             <tfoot>
