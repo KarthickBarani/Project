@@ -2,29 +2,30 @@
 import { useFormik } from "formik"
 
 
+
 export const Form = (props) => {
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            vendorName: props.invDetails.VendorName,
-            vendorId: props.invDetails.VendorId,
-            remitTo: props.invDetails.CustomerName,
-            vendorAddress: props.invDetails.VendorAddress,
+            vendorName: props.invDetails?.VendorName,
+            vendorId: props.invDetails?.VendorId,
+            remitTo: props.invDetails?.CustomerName,
+            vendorAddress: props.invDetails?.VendorAddress,
             subsidiary: '',
-            address: props.invDetails.RemittanceAddress,
+            address: props.invDetails?.RemittanceAddress,
             department: '',
-            poNo: props.invDetails.PurchaseNumber,
+            poNo: props.invDetails?.PurchaseNumber,
             location: '',
-            invoiceNumber: props.invDetails.InvoiceNumber,
-            invoiceDate: new Date(props.invDetails.InvoiceDate).toLocaleDateString() === '1/1/1' ? '' : new Date(props.invDetails.InvoiceDate).toLocaleDateString(),
+            invoiceNumber: props.invDetails?.InvoiceNumber,
+            invoiceDate: new Date(props.invDetails?.InvoiceDate).toLocaleDateString() === '1/1/1' ? '' : new Date(props.invDetails?.InvoiceDate).toLocaleDateString(),
             postingPeriod: '',
-            dueDate: new Date(props.invDetails.DueDate).toLocaleDateString() === '1/1/1' ? '' : new Date(props.invDetails.DueDate).toLocaleDateString(),
-            invoiceAmount: props.invDetails.TotalAmount?.toFixed(2),
+            dueDate: new Date(props.invDetails?.DueDate).toLocaleDateString() === '1/1/1' ? '' : new Date(props.invDetails?.DueDate).toLocaleDateString(),
+            invoiceAmount: props.invDetails?.TotalAmount?.toFixed(2),
             currency: 'USD',
-            tax: props.invDetails.TaxTotal?.toFixed(2),
-            exSubtotal: 0,
-            poSubtotal: 0,
+            tax: props.invDetails?.TaxTotal?.toFixed(2),
+            exSubtotal: 0?.toFixed(2),
+            poSubtotal: 0?.toFixed(2),
             memo: '',
             approver: '',
         },
